@@ -1,8 +1,9 @@
-@extends('web.template')
+@extends('web.layouts.template')
 
 @section('content')
 
-<table class="table table-bordered table-striped">
+<table class="display" id="table_id">
+    <thead>
     <tr>
         <th>No</th>
         <th>Nama Kegiatan</th>
@@ -10,6 +11,8 @@
         <th>Waktu</th>
         <th>Pengirim</th>
     </tr>
+</thead>
+<tbody>
     <?php $no=1; ?>
     @foreach ($data as $d)
     <tr>
@@ -20,9 +23,9 @@
         <td>{{ $d->pengirim }}</td>
     </tr>
     @endforeach
-
+</tbody>
 </table>
 
-{{ $data->links() }}
+{{-- {{ $data->links() }} --}}
 
 @endsection

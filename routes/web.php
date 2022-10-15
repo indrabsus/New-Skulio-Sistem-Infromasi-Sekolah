@@ -21,3 +21,5 @@ Route::get('/logout', 'App\Http\Controllers\AuthController@logout')->name('logou
 
 Route::get('/',[PageController::class,'pengumuman'])->name('pengumuman');
 Route::get('/guru',[PageController::class,'guru'])->name('dataguru');
+Route::get('/tendik',[PageController::class,'tendik'])->name('datatendik');
+Route::get('/mapel',[PageController::class,'mapel'])->name('datamapel');

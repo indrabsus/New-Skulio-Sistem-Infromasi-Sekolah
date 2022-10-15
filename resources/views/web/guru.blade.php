@@ -1,18 +1,20 @@
-@extends('web.template')
+@extends('web.layouts.template')
 
 @section('content')
 
-<table class="table table-bordered table-striped">
+<table class="display" id="table_id">
+    <thead>
     <tr>
         <th>Kode Guru</th>
         <th>Nama Guru</th>
         <th>Jenis Kelamin</th>
         <th>No HP</th>
     </tr>
-    <?php $no=1; ?>
+</thead>
+<tbody>
     @foreach ($data as $d)
     <tr>
-        <td>{{ $no++ }}</td>
+        <td>{{ $d->kode_guru }}</td>
         <td>{{ $d->nama_guru }}</td>
         <td>@if ($d->jk_guru == 'L')
             Laki-laki
@@ -22,9 +24,10 @@
         <td>{{ $d->nohp_guru }}</td>
     </tr>
     @endforeach
+</tbody>
 
 </table>
 
-{{ $data->links() }}
+
 
 @endsection
