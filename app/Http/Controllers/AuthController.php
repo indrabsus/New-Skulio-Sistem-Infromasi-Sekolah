@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class AuthController extends Controller
 {
@@ -34,8 +35,10 @@ class AuthController extends Controller
         $kredensil = $request->only('username', 'password');
         if (Auth::attempt($kredensil)) {
             $user = Auth::user();
+            $token = $request->user()->createToken($request->username, [$user->level])->plainTextToken;
             if ($user->level == 'admin') {
                 return redirect()->intended('admin');
+                // return $token;
             }
             return redirect()->intended('/');
         }
@@ -44,7 +47,8 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         $request->session()->flush();
-        Auth::logout();
+        // Auth::logout();
+
         return redirect()->route('loginui');
     }
 
@@ -73,5 +77,9 @@ class AuthController extends Controller
             'poin' => 100
         ]);
         return redirect()->route('loginui')->with('status', 'Berhasil daftar tunggu ACC walikelas/admin');
+    }
+    public function admin(Request $request){
+        dd($request->tokens());
+        return view('admin.index');
     }
 }

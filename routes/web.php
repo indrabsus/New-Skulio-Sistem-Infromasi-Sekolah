@@ -18,7 +18,7 @@ Route::get('/loginui', 'App\Http\Controllers\AuthController@index')->name('login
 Route::post('/proses_register', 'App\Http\Controllers\AuthController@proses_register')->name('proses_register');
 Route::get('/login', 'App\Http\Controllers\AuthController@login')->name('loginredirect');
 Route::post('proses_login', 'App\Http\Controllers\AuthController@proses_login')->name('proses_login');
-Route::get('/logout', 'App\Http\Controllers\AuthController@logout')->name('logout');
+// Route::get('/logout', 'App\Http\Controllers\AuthController@logout')->name('logout');
 
 // Route::get('/loginui',[PageController::class,'loginui'])->name('loginui');
 Route::get('/',[PageController::class,'pengumuman'])->name('pengumuman');
@@ -37,3 +37,7 @@ Route::get('/agendasarpras',[PageController::class,'sarpras'])->name('sarprasage
 Route::get('/agendamutu',[PageController::class,'mutu'])->name('mutuagenda');
 Route::get('/bukutamu',[PageController::class,'tamu'])->name('bukutamu');
 Route::post('/kirimtamu',[PageController::class,'kirimtamu'])->name('kirimtamu');
+
+
+Route::middleware('auth:sanctum')->get('/logout', 'App\Http\Controllers\AuthController@logout')->name('logout');
+Route::middleware('auth:sanctum')->get('/admin', 'App\Http\Controllers\AuthController@admin')->name('admin');
