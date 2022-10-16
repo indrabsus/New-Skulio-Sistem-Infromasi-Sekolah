@@ -32,9 +32,9 @@
                     </div>
                     <div class="col-lg-2 col-md-4 col-sm-12">
                         <ul class="top-nav kanan">
-                            <li><a href="{{ $p->fb }}"><i class="fab fa-facebook-f"></i></li></a>
                                 <li><a href="{{ $p->ig }}"><i class="fab fa-instagram"></i></li></a>
                                     <li><a href="{{ $p->yt }}"><i class="fab fa-youtube"></i></li></a>
+                                    <li><a href="{{ route('loginui') }}" >Login</li></a>
                         </ul>
                     </div>
                 </div>
@@ -66,7 +66,6 @@
                         <!-- /.login-box -->
 
 
-
                     </div>
                 </div>
             </div>
@@ -84,7 +83,7 @@
                         <li class="nav-item {{ Route::currentRouteName() === 'pengumuman' ? 'active':'' }}">
                             <a class="nav-link" href="{{ route('pengumuman') }}">Kegiatan</a>
                         </li>
-                        <li class="nav-item dropdown {{ Route::currentRouteName() === 'dataguru' ||  Route::currentRouteName() === 'datatendik' ||  Route::currentRouteName() === 'datamapel'? 'active':'' }}">
+                        <li class="nav-item dropdown {{ Route::currentRouteName() === 'dataguru' ||  Route::currentRouteName() === 'datatendik' ||  Route::currentRouteName() === 'datamapel' ||  Route::currentRouteName() === 'datakelas' ||  Route::currentRouteName() === 'datasiswa'? 'active':'' }}">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Data Sekolah
                             </a>
@@ -92,39 +91,39 @@
                                 <a class="dropdown-item" href="{{ route('dataguru') }}">Data Guru</a>
                                 <a class="dropdown-item" href="{{ route('datatendik') }}">Data Tendik</a>
                                 <a class="dropdown-item" href="{{ route('datamapel') }}">Data Mapel</a>
-                                <a class="dropdown-item" href="#">Data Siswa (Coming Soon)</a>
-                                <a class="dropdown-item" href="#">Data Kelas (Coming Soon)</a>
+                                <a class="dropdown-item" href="{{ route('datasiswa') }}">Data Siswa</a>
+                                <a class="dropdown-item" href="{{ route('datakelas') }}">Data Kelas</a>
                             </div>
                         </li>
-                        <li class="nav-item dropdown">
+                        <li class="nav-item dropdown {{ Route::currentRouteName() === 'datajadwal' || Route::currentRouteName() === 'datalabkom' ? 'active':''}}">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Data Jadwal
                             </a>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">Jadwal Pelajaran</a>
-                                <a class="dropdown-item" href="#">Jadwal Lab Komputer</a>
-                                <a class="dropdown-item" href="#">Jadwal Ekskul</a>
+                                <a class="dropdown-item" href="{{ route('datajadwal') }}">Jadwal Pelajaran</a>
+                                <a class="dropdown-item" href="{{ route('datalabkom') }}">Jadwal Lab Komputer</a>
+                                {{-- <a class="dropdown-item" href="#">Jadwal Ekskul</a> --}}
                             </div>
                         </li>
-                        <li class="nav-item dropdown">
+                        <li class="nav-item dropdown {{ Route::currentRouteName() === 'kepsekagenda' || Route::currentRouteName() === 'kurikulumagenda' || Route::currentRouteName() === 'kesiswaanagenda' || Route::currentRouteName() === 'humasagenda' || Route::currentRouteName() === 'sarprasagenda' || Route::currentRouteName() === 'mutuagenda'? 'active':''}}">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Manajemen
                             </a>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">Kepala Sekolah</a>
-                                <a class="dropdown-item" href="#">Kurikulum</a>
-                                <a class="dropdown-item" href="#">Kesiswaan</a>
-                                <a class="dropdown-item" href="#">Humas Hubin</a>
-                                <a class="dropdown-item" href="#">Sarana Prasarana</a>
-                                <a class="dropdown-item" href="#">Wakil Manajemen Mutu</a>
+                                <a class="dropdown-item" href="{{ route('kepsekagenda') }}">Kepala Sekolah</a>
+                                <a class="dropdown-item" href="{{ route('kurikulumagenda') }}">Kurikulum</a>
+                                <a class="dropdown-item" href="{{ route('kesiswaanagenda') }}">Kesiswaan</a>
+                                <a class="dropdown-item" href="{{ route('humasagenda') }}">Humas Hubin</a>
+                                <a class="dropdown-item" href="{{ route('sarprasagenda') }}">Sarana Prasarana</a>
+                                <a class="dropdown-item" href="{{ route('mutuagenda') }}">Wakil Manajemen Mutu</a>
                             </div>
                         </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="">Buku Tamu</a>
+                        <li class="nav-item {{ Route::currentRouteName() === 'bukutamu' ?'active':''}}">
+                            <a class="nav-link" href="{{ route('bukutamu') }}">Buku Tamu</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">Login/Register</a>
+                            <a class="nav-link" href="">PPDB Online</a>
                         </li>
                     </ul>
                 </div>
@@ -189,7 +188,7 @@
 
 
 
-    <script src={{ asset("assets/js/jquery-3.3.1.slim.min.js") }}></script>
+    <script src="https://code.jquery.com/jquery-3.6.1.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
     <script src={{ asset("assets/js/bootstrap.min.js") }}></script>
     <script src={{ asset("assets/js/owl.carousel.min.js") }}></script>

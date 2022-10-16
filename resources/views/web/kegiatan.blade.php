@@ -2,6 +2,8 @@
 
 @section('content')
 
+
+
 <table class="display" id="table_id">
     <thead>
     <tr>
@@ -26,6 +28,6 @@
 </tbody>
 </table>
 
-{{-- {{ $data->links() }} --}}
+
 
 @endsection

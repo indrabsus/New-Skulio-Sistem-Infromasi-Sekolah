@@ -5,8 +5,9 @@
     <thead>
         <tr>
             <th>No</th>
-            <th>Nama Guru</th>
-            <th>Nama Mapel</th>
+            <th>Kelas</th>
+            <th>Walikelas</th>
+            <th>No HP</th>
         </tr>
     </thead>
     <tbody>
@@ -14,8 +15,9 @@
     @foreach ($data as $d)
         <tr>
             <td>{{ $no++ }}</td>
+            <td>{{ $d->nama_kelas }}</td>
             <td>{{ $d->nama_guru }}</td>
-            <td>{{ $d->nama_mapel }}</td>
+            <td>{{ $d->nohp_guru }}</td>
         </tr>
         @endforeach
     </tbody>
