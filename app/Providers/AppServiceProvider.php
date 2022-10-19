@@ -28,7 +28,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Config::set([
-            'data' => Profile::where('npsn',20224125)->firstOrFail()
+            'data' => Profile::where('npsn',20224125)->firstOrFail(),
+            'public' => 'storage/app'
         ]);
+
     }
 }

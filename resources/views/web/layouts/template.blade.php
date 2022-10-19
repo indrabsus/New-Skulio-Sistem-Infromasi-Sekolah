@@ -52,7 +52,7 @@
                     <div class="col-md-8">
                         <div class="brand">
                             <a href="index.html">
-                                <img src={{ asset("assets") }}{{ $p->logo }} alt="Logo" title="Logo" width="80px" style="margin-top: -10px;">
+                                <img src={{ asset(Config::get('public')) }}{{ $p->logo }} alt="Logo" title="Logo" width="80px" style="margin-top: -10px;">
                             </a>
                             <div class="brand-title">
                                 <a href="">
@@ -145,7 +145,7 @@
                 <div class="col-lg-5 col-md-12 col-sm-12">
                     <div class="footer-col">
                         <div class="brand">
-                            <img src={{ asset("assets") }}{{ $p->logo }} alt="Logo" width="50px">
+                            <img src={{ asset(Config::get('public')) }}{{ $p->logo }} alt="Logo" width="50px">
                             <h1>{{ $p->nama_sekolah }}</h1>
                         </div>
                         <p class="tentang">{{ $p->desk_panjang }}</p>

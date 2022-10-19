@@ -1,6 +1,11 @@
 <?php
 
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\PureController;
+use App\Http\Livewire\Admin\Index;
+use App\Http\Livewire\Admin\UserAll;
+use App\Http\Livewire\Kurikulum\GuruMgmt;
+use App\Http\Livewire\Kurikulum\SiswaMgmt;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,7 +23,7 @@ Route::get('/loginui', 'App\Http\Controllers\AuthController@index')->name('login
 Route::post('/proses_register', 'App\Http\Controllers\AuthController@proses_register')->name('proses_register');
 Route::get('/login', 'App\Http\Controllers\AuthController@login')->name('loginredirect');
 Route::post('proses_login', 'App\Http\Controllers\AuthController@proses_login')->name('proses_login');
-// Route::get('/logout', 'App\Http\Controllers\AuthController@logout')->name('logout');
+Route::get('/logout', 'App\Http\Controllers\AuthController@logout')->name('logout');
 
 // Route::get('/loginui',[PageController::class,'loginui'])->name('loginui');
 Route::get('/',[PageController::class,'pengumuman'])->name('pengumuman');
@@ -39,5 +44,31 @@ Route::get('/bukutamu',[PageController::class,'tamu'])->name('bukutamu');
 Route::post('/kirimtamu',[PageController::class,'kirimtamu'])->name('kirimtamu');
 
 
-Route::middleware('auth:sanctum')->get('/logout', 'App\Http\Controllers\AuthController@logout')->name('logout');
-Route::middleware('auth:sanctum')->get('/admin', 'App\Http\Controllers\AuthController@admin')->name('admin');
+
+Route::group(['middleware' => ['auth']], function () {
+
+        // Livewire Admin
+        Route::get('admin', Index::class)->name('index');
+        Route::get('admin/userall', UserAll::class)->name('userAll');
+
+        //livewire Kurikulum
+        Route::get('admin/gurumgmt', GuruMgmt::class)->name('gurumgmt');
+        Route::get('admin/siswamgmt', SiswaMgmt::class)->name('siswamgmt');
+
+
+        // Controller Config
+        Route::get('admin/config', [PureController::class,'config'])->name('config');
+        Route::post('admin/prosesconfig', [PureController::class,'prosesconfig'])->name('prosesConfig');
+
+});
+
+// Route::group(['middleware' => ['auth']], function () {
+//     Route::group(['middleware' => ['cek_login:kurikulum','cek_login:admin']], function () {
+
+//         // Livewire Admin
+//         Route::get('kurikulum', Index::class)->name('indexkurikulum');
+//         Route::get('kurikulum/gurumgmt', GuruMgmt::class)->name('gurumgmt');
+
+//     });
+
+// });
