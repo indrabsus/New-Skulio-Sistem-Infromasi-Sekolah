@@ -19,5 +19,17 @@
           <p>Manajemen Siswa</p>
         </a>
       </li>
+      <li class="nav-item">
+        <a href="{{ route('kelasmgmt') }}" class="nav-link">
+          <i class="far fa-circle nav-icon"></i>
+          <p>Manajemen Kelas</p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="{{ route('kaprog') }}" class="nav-link">
+          <i class="far fa-circle nav-icon"></i>
+          <p>Manajemen Kaprog</p>
+        </a>
+      </li>
     </ul>
   </li>

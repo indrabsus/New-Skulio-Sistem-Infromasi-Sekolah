@@ -5,8 +5,11 @@ use App\Http\Controllers\PureController;
 use App\Http\Livewire\Admin\Index;
 use App\Http\Livewire\Admin\UserAll;
 use App\Http\Livewire\Kurikulum\GuruMgmt;
+use App\Http\Livewire\Kurikulum\Kaprog;
+use App\Http\Livewire\Kurikulum\KelasMgmt;
 use App\Http\Livewire\Kurikulum\SiswaMgmt;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -54,7 +57,8 @@ Route::group(['middleware' => ['auth']], function () {
         //livewire Kurikulum
         Route::get('admin/gurumgmt', GuruMgmt::class)->name('gurumgmt');
         Route::get('admin/siswamgmt', SiswaMgmt::class)->name('siswamgmt');
-
+        Route::get('admin/kelasmgmt', KelasMgmt::class)->name('kelasmgmt');
+        Route::get('admin/kaprog', Kaprog::class)->name('kaprog');
 
         // Controller Config
         Route::get('admin/config', [PureController::class,'config'])->name('config');
