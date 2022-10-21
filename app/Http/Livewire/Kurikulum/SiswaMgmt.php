@@ -101,6 +101,7 @@ class SiswaMgmt extends Component
         $this->jk_siswa = $user->jk_siswa;
         $this->nohp = $user->nohp;
         $this->id_kelas = $user->id_kelas;
+        $this->confirmed = $user->confirmed;
     }
 
     public function update() {

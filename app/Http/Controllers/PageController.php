@@ -16,24 +16,21 @@ class PageController extends Controller
     public function pengumuman(){
         $pengumuman = Announcement::orderBy('id_kegiatan','desc')->get();
         return view('web.kegiatan',[
-            'data' => $pengumuman,
-            'p' => Config::get('data')
+            'data' => $pengumuman
         ]);
     }
 
     public function guru(){
         $guru = Teacher::orderBy('kode_guru','asc')->get();
         return view('web.guru',[
-            'data' => $guru,
-            'p' => Config::get('data')
+            'data' => $guru
         ]);
     }
 
     public function tendik(){
         $tendik = Staf::all();
         return view('web.tendik',[
-            'data' => $tendik,
-            'p' => Config::get('data')
+            'data' => $tendik
         ]);
     }
 
@@ -43,8 +40,7 @@ class PageController extends Controller
         ->leftJoin('subjects','subjects.id_mapel','guru_mapel_links.id_mapel')
         ->get();
         return view('web.mapel',[
-            'data' => $mapel,
-            'p' => Config::get('data')
+            'data' => $mapel
         ]);
     }
     public function kelas(){
@@ -52,8 +48,7 @@ class PageController extends Controller
                 ->leftJoin('teachers','teachers.id_guru','groups.id_guru')
                 ->get();
         return view('web.kelas',[
-            'data' => $kelas,
-            'p' => Config::get('data')
+            'data' => $kelas
         ]);
     }
     public function siswa(){
@@ -64,8 +59,7 @@ class PageController extends Controller
         ->orderBy('id_siswa','desc')
         ->get();
         return view('web.siswa',[
-            'data' => $siswa,
-            'p' => Config::get('data')
+            'data' => $siswa
         ]);
     }
 
@@ -77,8 +71,7 @@ class PageController extends Controller
         ->leftJoin('subjects','subjects.id_mapel','guru_mapel_links.id_mapel')
         ->get();
         return view('web.jadwal',[
-            'data' => $jadwal,
-            'p' => Config::get('data')
+            'data' => $jadwal
         ]);
     }
     public function labkom(){
@@ -88,8 +81,7 @@ class PageController extends Controller
         ->leftJoin('subjects','subjects.id_mapel','labkom_schedules.id_mapel')
         ->get();
         return view('web.labkom',[
-            'data' => $labkom,
-            'p' => Config::get('data')
+            'data' => $labkom
         ]);
     }
     public function kepsek(){
@@ -99,8 +91,7 @@ class PageController extends Controller
         ->orderBy('id_agenda','desc')
         ->get();
         return view('web.kepsek',[
-            'data' => $kepsek,
-            'p' => Config::get('data')
+            'data' => $kepsek
         ]);
     }
     public function kurikulum(){
@@ -110,8 +101,7 @@ class PageController extends Controller
         ->orderBy('id_agenda','desc')
         ->get();
         return view('web.kurikulum',[
-            'data' => $kurikulum,
-            'p' => Config::get('data')
+            'data' => $kurikulum
         ]);
     }
     public function kesiswaan(){
@@ -121,8 +111,7 @@ class PageController extends Controller
         ->orderBy('id_agenda','desc')
         ->get();
         return view('web.kesiswaan',[
-            'data' => $kesiswaan,
-            'p' => Config::get('data')
+            'data' => $kesiswaan
         ]);
     }
     public function humas(){
@@ -132,8 +121,7 @@ class PageController extends Controller
         ->orderBy('id_agenda','desc')
         ->get();
         return view('web.humas',[
-            'data' => $humas,
-            'p' => Config::get('data')
+            'data' => $humas
         ]);
     }
     public function sarpras(){
@@ -143,8 +131,7 @@ class PageController extends Controller
         ->orderBy('id_agenda','desc')
         ->get();
         return view('web.sarpras',[
-            'data' => $sarpras,
-            'p' => Config::get('data')
+            'data' => $sarpras
         ]);
     }
     public function mutu(){
@@ -154,15 +141,12 @@ class PageController extends Controller
         ->orderBy('id_agenda','desc')
         ->get();
         return view('web.mutu',[
-            'data' => $mutu,
-            'p' => Config::get('data')
+            'data' => $mutu
         ]);
     }
     public function tamu(){
         Config::get('data');
-        return view('web.tamu',[
-            'p' => Config::get('data')
-        ]);
+        return view('web.tamu');
     }
     public function kirimTamu(Request $request){
         $request->validate([

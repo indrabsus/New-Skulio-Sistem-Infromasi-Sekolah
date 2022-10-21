@@ -7,28 +7,18 @@ use App\Http\Livewire\Admin\UserAll;
 use App\Http\Livewire\Kurikulum\GuruMgmt;
 use App\Http\Livewire\Kurikulum\Kaprog;
 use App\Http\Livewire\Kurikulum\KelasMgmt;
+use App\Http\Livewire\Kurikulum\MapelMgmt;
 use App\Http\Livewire\Kurikulum\SiswaMgmt;
 use Illuminate\Support\Facades\Route;
 
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
+// Route Auth
 Route::get('/loginui', 'App\Http\Controllers\AuthController@index')->name('loginui');
 Route::post('/proses_register', 'App\Http\Controllers\AuthController@proses_register')->name('proses_register');
 Route::get('/login', 'App\Http\Controllers\AuthController@login')->name('loginredirect');
 Route::post('proses_login', 'App\Http\Controllers\AuthController@proses_login')->name('proses_login');
 Route::get('/logout', 'App\Http\Controllers\AuthController@logout')->name('logout');
 
-// Route::get('/loginui',[PageController::class,'loginui'])->name('loginui');
+// Route Web Home
 Route::get('/',[PageController::class,'pengumuman'])->name('pengumuman');
 Route::get('/guru',[PageController::class,'guru'])->name('dataguru');
 Route::get('/tendik',[PageController::class,'tendik'])->name('datatendik');
@@ -59,20 +49,10 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('admin/siswamgmt', SiswaMgmt::class)->name('siswamgmt');
         Route::get('admin/kelasmgmt', KelasMgmt::class)->name('kelasmgmt');
         Route::get('admin/kaprog', Kaprog::class)->name('kaprog');
+        Route::get('admin/mapelmgmt', MapelMgmt::class)->name('mapelmgmt');
 
         // Controller Config
         Route::get('admin/config', [PureController::class,'config'])->name('config');
         Route::post('admin/prosesconfig', [PureController::class,'prosesconfig'])->name('prosesConfig');
 
 });
-
-// Route::group(['middleware' => ['auth']], function () {
-//     Route::group(['middleware' => ['cek_login:kurikulum','cek_login:admin']], function () {
-
-//         // Livewire Admin
-//         Route::get('kurikulum', Index::class)->name('indexkurikulum');
-//         Route::get('kurikulum/gurumgmt', GuruMgmt::class)->name('gurumgmt');
-
-//     });
-
-// });

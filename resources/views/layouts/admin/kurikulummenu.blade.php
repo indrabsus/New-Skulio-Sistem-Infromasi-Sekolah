@@ -31,5 +31,11 @@
           <p>Manajemen Kaprog</p>
         </a>
       </li>
+      <li class="nav-item">
+        <a href="{{ route('mapelmgmt') }}" class="nav-link">
+          <i class="far fa-circle nav-icon"></i>
+          <p>Manajemen Mapel</p>
+        </a>
+      </li>
     </ul>
   </li>

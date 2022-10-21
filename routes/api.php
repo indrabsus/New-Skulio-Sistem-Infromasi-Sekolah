@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\PengumumanController;
+use App\Http\Controllers\APIController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/pengumuman',[PengumumanController::class,'index']);
+Route::get('/pengumuman/{apikey}',[APIController::class,'pengumuman']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

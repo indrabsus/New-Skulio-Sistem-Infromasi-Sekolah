@@ -13,8 +13,7 @@ class Index extends Component
     public function render()
     {
         return view('livewire.admin.index',[
-            'teachers' => DB::table('users')
-                            ->where('level','guru')
+            'teachers' => DB::table('teachers')
                             ->count(),
             'students' => DB::table('users')
                             ->where('level','siswa')

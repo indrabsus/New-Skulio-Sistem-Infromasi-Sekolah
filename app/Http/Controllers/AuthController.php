@@ -29,6 +29,12 @@ class AuthController extends Controller
         );
         $kredensil = $request->only('username', 'password');
         if (Auth::attempt($kredensil)) {
+            if(Auth::user()->confirmed == 'n'){
+                $request->session()->flush();
+                Auth::logout();
+                return redirect()->route('loginui')->with('status','Akun anda belum di verifikasi Admin');
+
+            }
             $user = Auth::user();
 
             return redirect()->intended('admin');

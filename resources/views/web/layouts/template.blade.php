@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{{ $p->nama_sekolah }}</title>
+    <title>{{ Config::get('data.nama_sekolah') }}</title>
     <link rel="stylesheet" href={{ asset("assets/css/bootstrap.min.css") }}>
     <link rel="stylesheet" href={{ asset("assets/css/owl.carousel.min.css") }}>
     <link rel="stylesheet" href={{ asset("assets/css/owl.theme.default.min.css") }}>
@@ -25,15 +25,15 @@
                 <div class="row">
                     <div class="col-lg-10 col-md-8 col-sm-12">
                         <ul class="top-nav kiri">
-                            <li><a href="tel:{{ $p->notel }}"><i class="fas fa-phone"></i> {{ $p->notel }}</li></a>
-                                <li><a href="{{ $p->email }}"><i class="fas fa-envelope"></i>
-                                    {{ $p->email }}</li></a>
+                            <li><a href="tel:{{ Config::get('data.notel') }}"><i class="fas fa-phone"></i> {{ Config::get('data.notel') }}</li></a>
+                                <li><a href="{{ Config::get('data.email') }}"><i class="fas fa-envelope"></i>
+                                    {{ Config::get('data.email') }}</li></a>
                         </ul>
                     </div>
                     <div class="col-lg-2 col-md-4 col-sm-12">
                         <ul class="top-nav kanan">
-                                <li><a href="{{ $p->ig }}"><i class="fab fa-instagram"></i></li></a>
-                                    <li><a href="{{ $p->yt }}"><i class="fab fa-youtube"></i></li></a>
+                                <li><a href="{{ Config::get('data.ig') }}"><i class="fab fa-instagram"></i></li></a>
+                                    <li><a href="{{ Config::get('data.yt') }}"><i class="fab fa-youtube"></i></li></a>
                                     <li><a href="{{ route('loginui') }}" >Login</li></a>
                         </ul>
                     </div>
@@ -52,12 +52,12 @@
                     <div class="col-md-8">
                         <div class="brand">
                             <a href="index.html">
-                                <img src={{ asset(Config::get('public')) }}{{ $p->logo }} alt="Logo" title="Logo" width="80px" style="margin-top: -10px;">
+                                <img src={{ asset(Config::get('public')) }}{{ Config::get('data.logo') }} alt="Logo" title="Logo" width="80px" style="margin-top: -10px;">
                             </a>
                             <div class="brand-title">
                                 <a href="">
-                                    <h1>{{ $p->nama_sekolah }}</h1>
-                                    <h4>{{ $p->desk_singkat }}</h4>
+                                    <h1>{{ Config::get('data.nama_sekolah') }}</h1>
+                                    <h4>{{ Config::get('data.desk_singkat') }}</h4>
                                 </a>
                             </div>
                         </div>
@@ -145,25 +145,25 @@
                 <div class="col-lg-5 col-md-12 col-sm-12">
                     <div class="footer-col">
                         <div class="brand">
-                            <img src={{ asset(Config::get('public')) }}{{ $p->logo }} alt="Logo" width="50px">
-                            <h1>{{ $p->nama_sekolah }}</h1>
+                            <img src={{ asset(Config::get('public')) }}{{ Config::get('data.logo') }} alt="Logo" width="50px">
+                            <h1>{{ Config::get('data.nama_sekolah') }}</h1>
                         </div>
-                        <p class="tentang">{{ $p->desk_panjang }}</p>
+                        <p class="tentang">{{ Config::get('data.desk_panjang') }}</p>
                         <ul class="sosmed">
-                            <li><a href="{{ $p->fb }}"><i class="fab fa-facebook-f"></i></a></li>
-                            <li><a href="{{ $p->ig }}"><i class="fab fa-instagram"></i></a></li>
-                            <li><a href="{{ $p->yt }}"><i class="fab fa-youtube"></i></a></li>
+                            <li><a href="{{ Config::get('data.fb') }}"><i class="fab fa-facebook-f"></i></a></li>
+                            <li><a href="{{ Config::get('data.ig') }}"><i class="fab fa-instagram"></i></a></li>
+                            <li><a href="{{ Config::get('data.yt') }}"><i class="fab fa-youtube"></i></a></li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-12 col-sm-12">
                     <div class="footer-col">
                         <h2>Kontak Kami</h2>
-                        <p class="alamat">{{ $p->alamat }}
+                        <p class="alamat">{{ Config::get('data.alamat') }}
                         </p>
                         <ul class="kontak">
-                            <li><i class="fas fa-phone"></i> Telp : {{ $p->notel }}</li>
-                            <li><i class="fas fa-envelope"></i> Email : {{ $p->email }}</li>
+                            <li><i class="fas fa-phone"></i> Telp : {{ Config::get('data.notel') }}</li>
+                            <li><i class="fas fa-envelope"></i> Email : {{ Config::get('data.email') }}</li>
                         </ul>
                     </div>
                 </div>
@@ -181,7 +181,7 @@
         <!-- .container -->
         <div class="footer-copyright">
             <div class="container text-center">
-                <h6>Copyright © {{ date('Y',strtotime(now())) }} <a href="{{ $p->url }}">{{ $p->nama_sekolah }}</a></h6>
+                <h6>Copyright © {{ date('Y',strtotime(now())) }} <a href="{{ Config::get('data.url') }}">{{ Config::get('data.nama_sekolah') }}</a></h6>
             </div>
         </div>
     </footer>
