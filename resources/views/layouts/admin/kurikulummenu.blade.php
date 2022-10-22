@@ -37,5 +37,17 @@
           <p>Manajemen Mapel</p>
         </a>
       </li>
+      <li class="nav-item">
+        <a href="{{ route('gurumapelmgmt') }}" class="nav-link">
+          <i class="far fa-circle nav-icon"></i>
+          <p>Guru Mapel</p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="{{ route('jadwalmgmt') }}" class="nav-link">
+          <i class="far fa-circle nav-icon"></i>
+          <p>Jadwal Pelajaran</p>
+        </a>
+      </li>
     </ul>
   </li>

@@ -5,6 +5,9 @@
 
 <div>
 <div class="row">
+    <div class="col-lg-2"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#add">
+        Tambah Data
+      </button></div>
     <div class="col-lg-1 mb-1">
         <select wire:model='result' class="form-control">
             <option value="10">10</option>
@@ -49,6 +52,49 @@
 
     {{ $data->links() }}
 
+    <div wire:ignore.self class="modal fade" id="add">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Add Data</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="container">
+                <form>
+                @csrf
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Level</label>
+                            <input type="text" class="form-control" wire:model="level">
+                            <div class="text-danger">
+                                @error('level')
+                                    {{$message}}
+                                @enderror
+                            </div>
+                        </div>
+                </div>
+            </div>
+
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <div class="form-group">
+                <button class="btn btn-primary btn-sm" wire:click.prevent="create()" id="tambahclose">Simpan</button>
+              </form>
+            </div>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->
+    </div>
+
   <!-- Modal EDIT USER -->
   <div wire:ignore.self class="modal fade" id="edit">
     <div class="modal-dialog">
@@ -70,19 +116,13 @@
                             <input name="username" class="form-control" wire:model="username" disabled>
                         </div>
                         <div class="form-group">
+
                             <label>Level</label>
-                            <select class="custom-select form-control-border" wire:model="level">
+                            <select class="form-control" wire:model="level">
                               <option value="">Pilih Level</option>
-                                <option value="admin">Admin</option>
-                                <option value="kepsek">Kepala Sekolah</option>
-                                <option value="kurikulum">Kurikulum</option>
-                                <option value="kesiswaan">Kesiswaan</option>
-                                <option value="humas">Humas Hubin</option>
-                                <option value="sarpras">Sarana Prasarana</option>
-                                <option value="kasubag">Kasubag TU</option>
-                                <option value="konseling">BP/BK</option>
-                                <option value="perpus">Perpustakaan</option>
-                                <option value="guru">Guru</option>
+                                @foreach ($datalevel as $l)
+                                    <option value="{{ $l->level }}">{{ $l->level }}</option>
+                                @endforeach
                             </select>
                             <div class="text-danger">
                                 @error('level')
@@ -139,6 +179,9 @@
   </div>
   <!-- /.modal -->
   <script>
+    window.addEventListener('closeModal', event => {
+     $("#add").modal('hide');
+    })
     window.livewire.on('edit',()=>{
         $('#edit').modal('hide');
     });

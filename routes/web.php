@@ -2,13 +2,7 @@
 
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PureController;
-use App\Http\Livewire\Admin\Index;
-use App\Http\Livewire\Admin\UserAll;
-use App\Http\Livewire\Kurikulum\GuruMgmt;
-use App\Http\Livewire\Kurikulum\Kaprog;
-use App\Http\Livewire\Kurikulum\KelasMgmt;
-use App\Http\Livewire\Kurikulum\MapelMgmt;
-use App\Http\Livewire\Kurikulum\SiswaMgmt;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Route;
 
 // Route Auth
@@ -40,19 +34,13 @@ Route::post('/kirimtamu',[PageController::class,'kirimtamu'])->name('kirimtamu')
 
 Route::group(['middleware' => ['auth']], function () {
 
-        // Livewire Admin
-        Route::get('admin', Index::class)->name('index');
-        Route::get('admin/userall', UserAll::class)->name('userAll');
-
-        //livewire Kurikulum
-        Route::get('admin/gurumgmt', GuruMgmt::class)->name('gurumgmt');
-        Route::get('admin/siswamgmt', SiswaMgmt::class)->name('siswamgmt');
-        Route::get('admin/kelasmgmt', KelasMgmt::class)->name('kelasmgmt');
-        Route::get('admin/kaprog', Kaprog::class)->name('kaprog');
-        Route::get('admin/mapelmgmt', MapelMgmt::class)->name('mapelmgmt');
-
-        // Controller Config
-        Route::get('admin/config', [PureController::class,'config'])->name('config');
+        // Livewire Admin Dashboard
+        Route::get('admin', 'App\Http\Livewire\Admin\Index')->name('index');
+        // Proses Controller
         Route::post('admin/prosesconfig', [PureController::class,'prosesconfig'])->name('prosesConfig');
 
+
+        foreach (Config::get('menu') as $m) {
+            Route::get($m->path, $m->class)->name($m->route);
+        }
 });

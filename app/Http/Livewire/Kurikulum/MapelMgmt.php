@@ -19,7 +19,7 @@ class MapelMgmt extends Component
         return view('livewire.kurikulum.mapel-mgmt',[
             'data' => Subject::orderBy('id_mapel')
             ->where('nama_mapel', 'like', '%'.$this->search.'%')
-            ->paginate($this->result)
+            ->paginate($this->result),
         ])
         ->extends('layouts.admin.app')
         ->section('content');

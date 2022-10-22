@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin;
 
+use App\Models\Level;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
@@ -19,7 +20,8 @@ class UserAll extends Component
         return view('livewire.admin.user-all',[
             'data' => User::where('level','!=','siswa')
             ->where('username', 'like', '%'.$this->search.'%')
-            ->paginate($this->result)
+            ->paginate($this->result),
+            'datalevel' => DB::table('levels')->get()
         ])
         ->extends('layouts.admin.app')
         ->section('content');
@@ -31,7 +33,15 @@ class UserAll extends Component
         $this->level = '';
         $this->confirmed = '';
     }
-
+    public function create(){
+        $this->validate([
+            'level' => 'required|unique:levels'
+        ]);
+        Level::create(['level' => $this->level]);
+        $this->dispatchBrowserEvent('closeModal');
+        session()->flash('pesan', 'Data Berhasil Disimpan');
+        $this->ClearForm();
+    }
 
     public function edit($id) {
         $user = DB::table('users')
