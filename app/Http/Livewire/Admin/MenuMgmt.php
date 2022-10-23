@@ -21,7 +21,6 @@ class MenuMgmt extends Component
             ->orderBy('id_menu','desc')
             ->where('nama_menu', 'like', '%'.$this->search.'%')
             ->paginate($this->result),
-
         ])
         ->extends('layouts.admin.app')
         ->section('content');
@@ -65,6 +64,29 @@ class MenuMgmt extends Component
         $this->route = $menu->route;
         $this->level = $menu->level;
         $this->ids = $menu->id_menu;
+    }
+    public function update(){
+        $this->validate([
+            'nama_menu' => 'required',
+            'path' => 'required',
+            'class' => 'required',
+            'route' => 'required',
+            'level' => 'required',
+        ]);
+
+        $isi = [
+            'nama_menu' => $this->nama_menu,
+            'path' => $this->path,
+            'class' => $this->class,
+            'route' => $this->route,
+            'level' => $this->level,
+        ];
+
+        $user = Menu::where('id_menu', $this->ids)->update($isi);
+
+        $this->dispatchBrowserEvent('closeModal');
+        session()->flash('pesan', 'Data Berhasil diedit');
+        $this->ClearForm();
     }
     public function konfirmasiHapus($id)
     {

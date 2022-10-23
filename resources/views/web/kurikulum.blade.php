@@ -18,7 +18,7 @@
     @foreach ($data as $d)
     <tr>
         <td>{{ $no++ }}</td>
-        <td>{{ date('d M Y h:i:s', strtotime($d->tanggal_agenda)) }}</td>
+        <td>{{ date('d M Y h:i', strtotime($d->tanggal_agenda)) }}</td>
         <td>{{ $d->kegiatan_agenda }}</td>
         <td>{{ $d->partner }}</td>
         <td>{{ $d->materi }}</td>

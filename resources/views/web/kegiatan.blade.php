@@ -11,7 +11,6 @@
         <th>Nama Kegiatan</th>
         <th>Tempat</th>
         <th>Waktu</th>
-        <th>Pengirim</th>
     </tr>
 </thead>
 <tbody>
@@ -19,10 +18,12 @@
     @foreach ($data as $d)
     <tr>
         <td>{{ $no++ }}</td>
-        <td>{{ $d->nama_kegiatan }}</td>
+        <td>{{ $d->nama_kegiatan }} @if ($d->pengirim !== NULL)
+            dikirim oleh {{ $d->pengirim }}
+        @endif</td>
         <td>{{ $d->tempat_kegiatan }}</td>
-        <td>{{ $d->waktu_kegiatan }}</td>
-        <td>{{ $d->pengirim }}</td>
+        <td>{{ \Carbon\Carbon::parse(date($d->waktu_kegiatan))->translatedFormat('l, d F Y h:i') }}</td>
+
     </tr>
     @endforeach
 </tbody>
