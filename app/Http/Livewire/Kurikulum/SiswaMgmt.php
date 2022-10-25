@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Kurikulum;
 
 use App\Models\Group;
 use App\Models\Student;
+use App\Models\StudentNote;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
@@ -13,7 +14,7 @@ class SiswaMgmt extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
-    public $nama_siswa, $username, $jk_siswa,  $nohp, $confirmed, $id_kelas;
+    public $nama_siswa, $username, $jk_siswa,  $nohp, $confirmed, $id_kelas, $kelakuan, $keterangan, $tanggal,$kpoin;
     public $result = 10;
     public $search = '';
     public function render()
@@ -38,6 +39,11 @@ class SiswaMgmt extends Component
         $this->nohp = '';
         $this->poin = '';
         $this->id_kelas = '';
+        $this->kelakuan = '';
+        $this->keterangan = '';
+        $this->kpoin = '';
+        $this->tanggal = '';
+
     }
     public function create(){
         $this->validate([
@@ -145,5 +151,40 @@ class SiswaMgmt extends Component
         $this->ClearForm();
         // return redirect('operator/guru');
     }
-
+    public function note($id){
+        $user = DB::table('students')
+        ->leftJoin('users','users.id','students.id_user')
+        ->leftJoin('groups','groups.id_kelas','students.id_kelas')
+        ->where('students.id_siswa',$id)
+        ->first();
+        $this->nama_siswa = $user->nama_siswa;
+        $this->id_kelas = $user->id_kelas;
+        $this->id_siswa = $user->id_siswa;
+        $this->poin = $user->poin;
+    }
+    public function updatenote(){
+        $this->validate([
+            'kelakuan' => 'required',
+            'keterangan' => 'required',
+            'kpoin' => 'required',
+            'tanggal' => 'required'
+        ]);
+        $isi = [
+            'id_siswa' => $this->id_siswa,
+            'id_kelas' => $this->id_kelas,
+            'kelakuan' => $this->kelakuan,
+            'kpoin' => $this->kpoin,
+            'keterangan' => $this->keterangan,
+            'tanggal' => $this->tanggal
+        ];
+        StudentNote::create($isi);
+        if($this->kelakuan == 'baik'){
+            Student::where('id_siswa',$this->id_siswa)->update(['poin' => $this->poin + $this->kpoin]);
+        } else {
+            Student::where('id_siswa',$this->id_siswa)->update(['poin' => $this->poin - $this->kpoin]);
+        }
+        session()->flash('pesan', 'Data Berhasil disimpan');
+        $this->dispatchBrowserEvent('closeModal');
+        $this->ClearForm();
+    }
 }

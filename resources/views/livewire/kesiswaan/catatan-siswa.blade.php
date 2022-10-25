@@ -1,11 +1,8 @@
-@if (strpos(Config::get('kurikulum'), Auth::user()->level) === false)
+@if (strpos(Config::get('kesiswaan'), Auth::user()->level) === false)
 <script>window.location = "{{ route('index') }}";</script>
 @endif
 <div>
     <div class="row">
-        <div class="col-lg-2"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#add">
-            Tambah Mapel
-          </button></div>
         <div class="col-lg-1 mb-1">
             <select wire:model='result' class="form-control">
                 <option value="10">10</option>
@@ -15,7 +12,7 @@
             </select>
         </div>
         <div class="col-lg-3 mb-1">
-            <input type="text" wire:model='search' class="form-control" placeholder="Cari Nama Mapel">
+            <input type="text" wire:model='search' class="form-control" placeholder="Cari Nama Siswa">
         </div>
     </div>
 
@@ -27,22 +24,41 @@
     </div>
     @endif
 
-        <table class="table table-bordered table-striped">
+        <table class="table table-responsive-lg table-striped">
             <thead>
             <tr>
                 <th>No</th>
-                <th>Mata Pelajaran</th>
+                <th>Nama Siswa</th>
+                <th>Kelas</th>
+                <th>Kelakuan</th>
+                <th>Keterangan</th>
+                <th>K Poin</th>
+                <th>Tanggal</th>
                 <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
             <?php $no=1; ?>
             @foreach ($data as $d)
-            <tr>
+            @if ($d->kelakuan == 'baik')
+            <tr class="text-success">
+                @else
+                <tr class="text-danger">
+            @endif
                 <td>{{ $no++ }}</td>
-                <td>{{ $d->nama_mapel }}</td>
-                <td><button class="btn btn-success btn-sm" wire:click="edit({{$d->id_mapel}})" data-toggle="modal" data-target="#edit">Edit</button> <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete" wire:click="konfirmasiHapus({{$d->id_mapel}})">Delete</button></td>
+                <td>{{ $d->nama_siswa }}</td>
+                <td>{{ $d->nama_kelas }}</td>
+                <td>{{ $d->kelakuan }}</td>
+                <td>{{ $d->keterangan }}</td>
+                <td>@if ($d->kelakuan == 'baik')
+                    +{{ $d->kpoin }}
+                @else
+                -{{ $d->kpoin }}
+                @endif</td>
+                <td>{{ \Carbon\Carbon::parse($d->tanggal)->translatedFormat('l, d F Y h:i') }}</td>
+                <td><button class="btn btn-success btn-sm" wire:click="edit({{$d->id_catatan}})" data-toggle="modal" data-target="#edit">Edit</button> <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete" wire:click="konfirmasiHapus({{$d->id_catatan}})">Delete</button></td>
             </tr>
+
             @endforeach
         </tbody>
         </table>
@@ -66,16 +82,25 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label>Mata Pelajaran</label>
-                            <input type="text" class="form-control" wire:model="nama_mapel">
+                            <label>Keterangan</label>
+                            <input class="form-control"wire:model="keterangan">
                             <div class="text-danger">
-                                @error('nama_kelas')
+                                @error('keterangan')
                                     {{$message}}
                                 @enderror
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label>Tanggal</label>
+                            <input type="datetime-local" id="date" wire:model="tanggal" class="form-control">
+                            <div class="text-danger">
+                                @error('tanggal')
+                                    {{$message}}
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
                 </div>
             </div>
             <div class="modal-footer justify-content-between">
@@ -139,16 +164,36 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label>Mata Pelajaran</label>
-                        <input type="text" class="form-control" wire:model="nama_mapel">
+                        <label>Nama Pemasukan</label>
+                        <input name="nama_credit" class="form-control" value="{{old('nama_credit')}}" wire:model="nama_credit">
                         <div class="text-danger">
-                            @error('nama_kelas')
+                            @error('nama_credit')
                                 {{$message}}
                             @enderror
                         </div>
                     </div>
+
+                    <div class="form-group">
+                        <label>Jumlah</label>
+                        <input name="biaya_credit" class="form-control" value="{{old('biaya_credit')}}" wire:model="biaya_credit">
+                        <div class="text-danger">
+                            @error('biaya_credit')
+                                {{$message}}
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tanggal</label>
+                        <input type="date" id="date" wire:model="tahun_credit" class="form-control">
+                        <div class="text-danger">
+                            @error('tahun_credit')
+                                {{$message}}
+                            @enderror
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
 
         </div>
         <div class="modal-footer justify-content-between">

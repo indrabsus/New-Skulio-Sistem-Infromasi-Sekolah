@@ -1,8 +1,13 @@
+@if (strpos(Config::get('kurkes'), Auth::user()->level) === false)
+<script>window.location = "{{ route('index') }}";</script>
+@endif
 <div>
     <div class="row">
+        @if (Auth::user()->level == 'kurikulum' || Auth::user()->level == 'admin')
         <div class="col-lg-2"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#add">
             Tambah Siswa
           </button></div>
+        @endif
         <div class="col-lg-1 mb-1">
             <select wire:model='result' class="form-control">
                 <option value="10">10</option>
@@ -59,9 +64,13 @@
                 <i class="fa fa-times" aria-hidden="true"></i>
                 @endif
                     </td>
-                <td><button type="button" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#reset" wire:click="creset({{$d->id}})">
-                    Reset
-                  </button> <button class="btn btn-success btn-sm" wire:click="edit({{$d->id}})" data-toggle="modal" data-target="#edit">Edit</button> <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete" wire:click="konfirmasiHapus({{$d->id}})">Delete</button></td>
+                <td>@if (Auth::user()->level == 'kurikulum' || Auth::user()->level == 'admin')
+                    <button type="button" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#reset" wire:click="creset({{$d->id}})">
+                        Reset
+                      </button> <button class="btn btn-success btn-sm" wire:click="edit({{$d->id}})" data-toggle="modal" data-target="#edit">Edit</button> <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete" wire:click="konfirmasiHapus({{$d->id}})">Delete</button>
+                @else
+                      <button class="btn btn-success btn-sm" wire:click="note({{$d->id_siswa}})" data-toggle="modal" data-target="#note">Catatan</button>
+                @endif</td>
             </tr>
             @endforeach
         </tbody>
@@ -298,7 +307,7 @@
                             <select class="custom-select form-control-border" wire:model="jk_siswa">
                               <option value="">Jenis Kelamin</option>
                                 <option value="l">Laki-laki</option>
-                                <option value="">Perempuan</option>
+                                <option value="p">Perempuan</option>
                             </select>
 
                             <div class="text-danger">
@@ -340,6 +349,122 @@
   </div>
   <!-- /.modal -->
 
+      <!-- Modal NOTE USER -->
+      <div wire:ignore.self class="modal fade" id="note">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Catatan Siswa</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="container">
+                <form>
+                @csrf
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                              <label>Nama Siswa</label>
+                              <input name="kodenama_siswa_guru" class="form-control" wire:model="nama_siswa" disabled>
+                              <div class="text-danger">
+                                  @error('nama_siswa')
+                                      {{$message}}
+                                  @enderror
+                              </div>
+                          </div>
+                            <div class="form-group">
+                                <label>Kelas</label>
+                                <select class="form-control" wire:model="id_kelas" disabled>
+                                    <option value="">Pilih Kelas</option>
+                                    @foreach ($kelas as $k)
+                                        <option value="{{ $k->id_kelas }}">{{ $k->nama_kelas }}</option>
+                                    @endforeach
+                                </select>
+                                <div class="text-danger">
+                                    @error('id_kelas')
+                                        {{$message}}
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Kelakuan</label>
+                                <select class="custom-select form-control-border" wire:model="kelakuan">
+                                  <option value="">Kelakuan</option>
+                                    <option value="baik">Baik</option>
+                                    <option value="buruk">Buruk</option>
+                                </select>
+
+                                <div class="text-danger">
+                                    @error('kelakuan')
+                                        {{$message}}
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Kalkulasi Poin</label>
+                                <select class="custom-select form-control-border" wire:model="kpoin">
+                                  <option value="">Kalkulasi Poin</option>
+                                    @if ($kelakuan == 'baik')
+                                        <option value="1">+1 Poin</option>
+                                        <option value="2">+2 Poin</option>
+                                        <option value="3">+3 Poin</option>
+                                        <option value="4">+4 Poin</option>
+                                        <option value="5">+5 Poin</option>
+                                    @elseif($kelakuan == 'buruk')
+                                    <option value="1">-1 Poin</option>
+                                    <option value="2">-2 Poin</option>
+                                    <option value="3">-3 Poin</option>
+                                    <option value="4">-4 Poin</option>
+                                    <option value="5">-5 Poin</option>
+                                    @endif
+                                </select>
+
+                                <div class="text-danger">
+                                    @error('kpoin')
+                                        {{$message}}
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Keterangan</label>
+                                <input type="text" class="form-control" wire:model="keterangan">
+                                <div class="text-danger">
+                                    @error('keterangan')
+                                        {{$message}}
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Tanggal</label>
+                                <input type="datetime-local" class="form-control" wire:model="tanggal">
+                                <div class="text-danger">
+                                    @error('tanggal')
+                                        {{$message}}
+                                    @enderror
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <div class="form-group">
+                <button class="btn btn-primary btn-sm" wire:click.prevent="updatenote()">Simpan</button>
+              </form>
+            </div>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->
+
   <script>
     window.addEventListener('closeModal', event => {
      $("#add").modal('hide');
@@ -353,7 +478,9 @@
     window.addEventListener('closeModal', event => {
      $("#reset").modal('hide');
     })
-
+    window.addEventListener('closeModal', event => {
+     $("#note").modal('hide');
+    })
   </script>
     </div>
 

@@ -1,3 +1,6 @@
+@if (strpos(Config::get('manajemen'), Auth::user()->level) === false)
+<script>window.location = "{{ route('index') }}";</script>
+@endif
 <div>
     <p><i>Note : Tulisan hitam artinya dipublikasikan</i></p>
     <div class="row">

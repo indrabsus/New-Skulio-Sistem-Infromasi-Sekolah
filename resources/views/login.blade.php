@@ -49,7 +49,7 @@
                             </div>
                         </div>
                           <div class="row">
-                              <div class="col-8"></div>
+                              <div class="col-8"><p><a href="{{ route('pengumuman') }}">Kembali ke Home</a></p></div>
                             <div class="col-4">
                               <button type="submit" class="btn btn-primary btn-block">Sign In</button>
                             </div>
@@ -63,6 +63,7 @@
                     </div>
                   </div>
                   <!-- /.login-box -->
+
             </div>
 
             <div class="col-lg-6 mt-5 mb-3">

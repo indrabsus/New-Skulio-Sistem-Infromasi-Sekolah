@@ -23,18 +23,22 @@
         <div id="topbar">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-10 col-md-8 col-sm-12">
+                    <div class="col-lg-9 col-md-8 col-sm-12">
                         <ul class="top-nav kiri">
                             <li><a href="tel:{{ Config::get('data.notel') }}"><i class="fas fa-phone"></i> {{ Config::get('data.notel') }}</li></a>
                                 <li><a href="{{ Config::get('data.email') }}"><i class="fas fa-envelope"></i>
                                     {{ Config::get('data.email') }}</li></a>
                         </ul>
                     </div>
-                    <div class="col-lg-2 col-md-4 col-sm-12">
+                    <div class="col-lg-3 col-md-4 col-sm-12">
                         <ul class="top-nav kanan">
                                 <li><a href="{{ Config::get('data.ig') }}"><i class="fab fa-instagram"></i></li></a>
                                     <li><a href="{{ Config::get('data.yt') }}"><i class="fab fa-youtube"></i></li></a>
-                                    <li><a href="{{ route('loginui') }}" >Login</li></a>
+                                    @if (!Auth::check())
+                                    <li><a href="{{ route('index') }}" >Login</li>
+                                    @else
+                                    <li><a href="{{ route('index') }}" >Dashboard</li>
+                                    @endif</a>
                         </ul>
                     </div>
                 </div>

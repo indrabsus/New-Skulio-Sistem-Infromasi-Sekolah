@@ -13,9 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('settings', function (Blueprint $table) {
-            $table->id();
-            $table->string('token_telegram');
+        Schema::create('student_notes', function (Blueprint $table) {
+            $table->id('id_catatan');
+            $table->bigInteger('id_siswa');
+            $table->bigInteger('id_kelas');
+            $table->string('pelanggaran');
             $table->timestamps();
         });
     }
@@ -27,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('settings');
+        Schema::dropIfExists('student_notes');
     }
 };

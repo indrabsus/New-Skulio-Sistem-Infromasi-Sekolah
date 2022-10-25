@@ -1,3 +1,6 @@
+@if (strpos(Config::get('kasubag'), Auth::user()->level) === false)
+<script>window.location = "{{ route('index') }}";</script>
+@endif
 <div>
     <div class="row">
         <div class="col-lg-2"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#add">

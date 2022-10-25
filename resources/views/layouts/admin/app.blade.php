@@ -71,7 +71,7 @@
                with font-awesome or any other icon font library -->
 
                <li class="nav-item">
-                <a href="{{ route('index') }}" class="nav-link">
+                <a href="{{ route('index') }}" class="nav-link {{ Route::currentRouteName() == 'index'?'active':'' }}">
                   <i class="nav-icon fas fa-th"></i>
                   <p>
                     Dashboard

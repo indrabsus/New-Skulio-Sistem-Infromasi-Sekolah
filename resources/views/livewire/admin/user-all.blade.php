@@ -1,4 +1,4 @@
-@if (Auth::user()->level != 'admin')
+@if (strpos(Config::get('admin'), Auth::user()->level) === false)
 <script>window.location = "{{ route('index') }}";</script>
 @endif
 

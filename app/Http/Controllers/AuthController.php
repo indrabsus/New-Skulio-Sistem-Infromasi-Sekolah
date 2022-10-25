@@ -12,7 +12,7 @@ class AuthController extends Controller
 {
     public function index()
     {
-        if (!isset(Auth::user()->level)) {
+        if (!Auth::check()) {
             return view('login',[
                 'kelas' => Group::all()
             ]);
