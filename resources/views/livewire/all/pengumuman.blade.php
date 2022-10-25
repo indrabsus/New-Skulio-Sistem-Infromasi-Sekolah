@@ -1,10 +1,10 @@
-@if (strpos(Config::get('sarpras'), Auth::user()->level) === false)
+@if (strpos(Config::get('manajemen'), Auth::user()->level) === false)
 <script>window.location = "{{ route('index') }}";</script>
 @endif
 <div>
     <div class="row">
         <div class="col-lg-2"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#add">
-            Tambah Data
+            Tambah Pengumuman
           </button></div>
         <div class="col-lg-1 mb-1">
             <select wire:model='result' class="form-control">
@@ -15,9 +15,8 @@
             </select>
         </div>
         <div class="col-lg-3 mb-1">
-            <input type="text" wire:model='search' class="form-control" placeholder="Cari Nama Barang">
+            <input type="text" wire:model='search' class="form-control" placeholder="Cari Nama Kegiatan">
         </div>
-
     </div>
 
     @if(session('pesan'))
@@ -32,12 +31,9 @@
             <thead>
             <tr>
                 <th>No</th>
-                <th>Nama Barang</th>
-                <th>Jumlah</th>
+                <th>Kegiatan</th>
                 <th>Tempat</th>
-                <th>Sumber</th>
-                <th>Keterangan</th>
-                <th>Tanggal</th>
+                <th>Waktu</th>
                 <th>Aksi</th>
             </tr>
         </thead>
@@ -46,21 +42,15 @@
             @foreach ($data as $d)
             <tr>
                 <td>{{ $no++ }}</td>
-                <td>{{ $d->nama_barang }}</td>
-                <td>{{ $d->jumlah_barang }}</td>
-                <td>{{ $d->tempat_barang }}</td>
-                <td>{{ $d->sumber_barang }}</td>
-                <td>{{ $d->keterangan }}</td>
-                <td>@if ($d->tanggal != NULL)
-                    {{ \Carbon\Carbon::parse($d->tanggal)->translatedFormat('l, d F Y') }}
-                @endif</td>
-                <td><button class="btn btn-success btn-sm mb-1" wire:click="edit({{$d->id_barang}})" data-toggle="modal" data-target="#edit">Edit</button> <button class="btn btn-danger btn-sm mb-1" data-toggle="modal" data-target="#delete" wire:click="konfirmasiHapus({{$d->id_barang}})">Delete</button></td>
+                <td>{{ $d->nama_kegiatan }}</td>
+                <td>{{ $d->tempat_kegiatan }}</td>
+                <td>{{ \Carbon\Carbon::parse($d->waktu_kegiatan)->translatedFormat('l, d F Y - h:i') }}</td>
+                <td><button class="btn btn-success btn-sm mb-1" wire:click="edit({{$d->id_kegiatan}})" data-toggle="modal" data-target="#edit">Edit</button> <button class="btn btn-danger btn-sm mb-1" data-toggle="modal" data-target="#delete" wire:click="konfirmasiHapus({{$d->id_kegiatan}})">Delete</button></td>
             </tr>
             @endforeach
         </tbody>
         </table>
         {{ $data->links() }}
-
 
       <!-- Modal EDIT USER -->
       <div wire:ignore.self class="modal fade" id="edit">
@@ -78,64 +68,34 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label>Nama Barang</label>
-                                <input name="nama_barang" class="form-control" value="{{old('nama_barang')}}" wire:model="nama_barang">
+                                <label>Nama Kegiatan</label>
+                                <input  class="form-control" wire:model="nama_kegiatan">
                                 <div class="text-danger">
-                                    @error('nama_barang')
+                                    @error('nama_kegiatan')
                                         {{$message}}
                                     @enderror
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label>Jumlah</label>
-                                <input name="jumlah_barang" class="form-control" value="{{old('jumlah_barang')}}" wire:model="jumlah_barang">
+                                <label>Tempat</label>
+                                <input class="form-control" wire:model="tempat_kegiatan">
                                 <div class="text-danger">
-                                    @error('jumlah_barang')
+                                    @error('tempat_kegiatan')
                                         {{$message}}
                                     @enderror
                                 </div>
                             </div>
+
                             <div class="form-group">
-                              <label>Tempat</label>
-                              <input name="tempat_barang" class="form-control" value="{{old('tempat_barang')}}" wire:model="tempat_barang">
-                              <div class="text-danger">
-                                  @error('tempat_barang')
-                                      {{$message}}
-                                  @enderror
-                              </div>
-                          </div>
-                          <div class="form-group">
-                            <label>Sumber Barang</label>
-                            <input name="sumber_barang" class="form-control" value="{{old('sumber_barang')}}" wire:model="sumber_barang">
-                            <div class="text-danger">
-                                @error('sumber_barang')
-                                    {{$message}}
-                                @enderror
+                                <label>Tanggal</label>
+                                <input type="datetime-local" id="date" wire:model="waktu_kegiatan" class="form-control">
+                                <div class="text-danger">
+                                    @error('waktu_kegiatan')
+                                        {{$message}}
+                                    @enderror
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Keterangan Barang</label>
-                            <select class="form-control" wire:model="keterangan">
-                                <option value="">Pilih Keterangan</option>
-                                <option value="masuk">Masuk</option>
-                                <option value="keluar">Keluar</option>
-                            </select>
-                            <div class="text-danger">
-                                @error('keterangan')
-                                    {{$message}}
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Tanggal</label>
-                            <input type="date" class="form-control" wire:model="tanggal">
-                            <div class="text-danger">
-                                @error('tanggal')
-                                    {{$message}}
-                                @enderror
-                            </div>
-                        </div>
                         </div>
                     </div>
                 </div>
@@ -197,71 +157,40 @@
         <div class="modal-body">
           <div class="container">
             <form>
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label>Nama Barang</label>
-                            <input name="nama_barang" class="form-control" value="{{old('nama_barang')}}" wire:model="nama_barang">
-                            <div class="text-danger">
-                                @error('nama_barang')
-                                    {{$message}}
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Jumlah</label>
-                            <input name="jumlah_barang" class="form-control" value="{{old('jumlah_barang')}}" wire:model="jumlah_barang">
-                            <div class="text-danger">
-                                @error('jumlah_barang')
-                                    {{$message}}
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="form-group">
-                          <label>Tempat</label>
-                          <input name="tempat_barang" class="form-control" value="{{old('tempat_barang')}}" wire:model="tempat_barang">
-                          <div class="text-danger">
-                              @error('tempat_barang')
-                                  {{$message}}
-                              @enderror
-                          </div>
-                      </div>
-                      <div class="form-group">
-                        <label>Sumber Barang</label>
-                        <input name="sumber_barang" class="form-control" value="{{old('sumber_barang')}}" wire:model="sumber_barang">
-                        <div class="text-danger">
-                            @error('sumber_barang')
-                                {{$message}}
-                            @enderror
-                        </div>
-                    </div>
+            @csrf
+            <div class="row">
+                <div class="col-sm-6">
                     <div class="form-group">
-                        <label>Keterangan Barang</label>
-                        <select class="form-control" wire:model="keterangan">
-                            <option value="">Pilih Keterangan</option>
-                            <option value="masuk">Masuk</option>
-                            <option value="keluar">Keluar</option>
-                        </select>
+                        <label>Nama Kegiatan</label>
+                        <input  class="form-control" wire:model="nama_kegiatan">
                         <div class="text-danger">
-                            @error('keterangan')
+                            @error('nama_kegiatan')
                                 {{$message}}
                             @enderror
                         </div>
                     </div>
+
+                    <div class="form-group">
+                        <label>Tempat</label>
+                        <input class="form-control" wire:model="tempat_kegiatan">
+                        <div class="text-danger">
+                            @error('tempat_kegiatan')
+                                {{$message}}
+                            @enderror
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <label>Tanggal</label>
-                        <input type="date" class="form-control" wire:model="tanggal">
+                        <input type="datetime-local" id="date" wire:model="waktu_kegiatan" class="form-control">
                         <div class="text-danger">
-                            @error('tanggal')
+                            @error('waktu_kegiatan')
                                 {{$message}}
                             @enderror
                         </div>
                     </div>
-
-
-                    </div>
                 </div>
+            </div>
 
         </div>
         <div class="modal-footer justify-content-between">
@@ -287,6 +216,9 @@
     })
     window.addEventListener('closeModal', event => {
      $("#delete").modal('hide');
+    })
+    window.addEventListener('closeModal', event => {
+     $("#reset").modal('hide');
     })
 
   </script>

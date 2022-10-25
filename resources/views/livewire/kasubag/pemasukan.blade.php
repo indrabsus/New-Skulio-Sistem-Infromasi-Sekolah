@@ -48,7 +48,7 @@
                 <td>{{ $d->nama_credit }}</td>
                 <td>Rp. {{ number_format($d->biaya_credit,2,',','.') }}</td>
                 <td>{{ \Carbon\Carbon::parse($d->tahun_credit)->translatedFormat('l, d F Y') }}</td>
-                <td><button class="btn btn-success btn-sm" wire:click="edit({{$d->id_credit}})" data-toggle="modal" data-target="#edit">Edit</button> <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete" wire:click="konfirmasiHapus({{$d->id_credit}})">Delete</button></td>
+                <td><button class="btn btn-success btn-sm mb-1" wire:click="edit({{$d->id_credit}})" data-toggle="modal" data-target="#edit">Edit</button> <button class="btn btn-danger btn-sm mb-1" data-toggle="modal" data-target="#delete" wire:click="konfirmasiHapus({{$d->id_credit}})">Delete</button></td>
             </tr>
             @endforeach
         </tbody>

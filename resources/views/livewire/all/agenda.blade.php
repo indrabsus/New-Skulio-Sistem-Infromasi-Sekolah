@@ -74,7 +74,7 @@
                 {{-- <td>{{ $d->publish }}</td> --}}
                 <td>
                     @if (Auth::user()->level == $d->level || Auth::user()->level == 'admin')
-                    <button class="btn btn-success btn-sm" wire:click="edit({{$d->id_agenda}})" data-toggle="modal" data-target="#edit">Edit</button> <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete" wire:click="konfirmasiHapus({{$d->id_agenda}})">Delete</button>
+                    <button class="btn btn-success btn-sm mb-1" wire:click="edit({{$d->id_agenda}})" data-toggle="modal" data-target="#edit">Edit</button> <button class="btn btn-danger btn-sm mb-1" data-toggle="modal" data-target="#delete" wire:click="konfirmasiHapus({{$d->id_agenda}})">Delete</button>
                     @endif
                 </td>
             </tr>

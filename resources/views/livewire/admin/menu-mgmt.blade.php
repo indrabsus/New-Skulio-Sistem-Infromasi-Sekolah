@@ -50,7 +50,7 @@
                 <td>{{ $d->class }}</td>
                 <td>{{ $d->route }}</td>
                 <td>{{ $d->level }}</td>
-                <td><button class="btn btn-success btn-sm" wire:click="edit({{$d->id_menu}})" data-toggle="modal" data-target="#edit">Edit</button> <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete" wire:click="konfirmasiHapus({{$d->id_menu}})">Delete</button></td>
+                <td><button class="btn btn-success btn-sm mb-1" wire:click="edit({{$d->id_menu}})" data-toggle="modal" data-target="#edit">Edit</button> <button class="btn btn-danger btn-sm mb-1" data-toggle="modal" data-target="#delete" wire:click="konfirmasiHapus({{$d->id_menu}})">Delete</button></td>
             </tr>
             @endforeach
         </tbody>

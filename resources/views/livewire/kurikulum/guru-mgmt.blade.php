@@ -48,9 +48,9 @@
                 <td><a href="https://api.whatsapp.com/send?phone=62{{ substr($d->nohp_guru, 1) }}" target="_blank">{{ $d->nohp_guru }}</a></td>
                 <td hidden>{{$d->id_user}}</td>
                 <td hidden>{{ $d->jk_guru }}</td>
-                <td><button type="button" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#reset" wire:click="creset({{$d->id}})">
+                <td><button type="button" class="btn btn-dark btn-sm mb-1" data-toggle="modal" data-target="#reset" wire:click="creset({{$d->id}})">
                     Reset
-                  </button> <button class="btn btn-success btn-sm" wire:click="edit({{$d->id}})" data-toggle="modal" data-target="#edit">Edit</button> <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete" wire:click="konfirmasiHapus({{$d->id}})">Delete</button></td>
+                  </button> <button class="btn btn-success btn-sm mb-1" wire:click="edit({{$d->id}})" data-toggle="modal" data-target="#edit">Edit</button> <button class="btn btn-danger btn-sm mb-1" data-toggle="modal" data-target="#delete" wire:click="konfirmasiHapus({{$d->id}})">Delete</button></td>
             </tr>
             @endforeach
         </tbody>

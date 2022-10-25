@@ -58,7 +58,7 @@
                 <td>{{ $d->nama_kelas }}</td>
                 <td>{{ $d->hari }}</td>
                 <td>{{ $d->jam_a }} - {{ $d->jam_b }}</td>
-                <td><button class="btn btn-success btn-sm" wire:click="edit({{$d->id_jadwal}})" data-toggle="modal" data-target="#edit">Edit</button> <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete" wire:click="konfirmasiHapus({{$d->id_jadwal}})">Delete</button></td>
+                <td><button class="btn btn-success btn-sm mb-1" wire:click="edit({{$d->id_jadwal}})" data-toggle="modal" data-target="#edit">Edit</button> <button class="btn btn-danger btn-sm mb-1" data-toggle="modal" data-target="#delete" wire:click="konfirmasiHapus({{$d->id_jadwal}})">Delete</button></td>
             </tr>
             @endforeach
         </tbody>
