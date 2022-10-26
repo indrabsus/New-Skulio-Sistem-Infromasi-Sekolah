@@ -84,4 +84,5 @@ class Pemasukan extends Component
         $this->dispatchBrowserEvent('closeModal');
         $this->ClearForm();
     }
+
 }
