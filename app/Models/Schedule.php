@@ -8,7 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Schedule extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'id_gurumapel','id_kelas','hari','jam_a','jam_b'
-    ];
+    protected $guarded = [];
 }

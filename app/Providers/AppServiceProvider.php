@@ -43,7 +43,8 @@ class AppServiceProvider extends ServiceProvider
             'kasubag' => 'admin, kepsek, kasubag',
             'guru' => 'admin, kepsek, kurikulum, kesiswaan, humas, sarpras, mutu, perpus, konseling, guru, akl, bdp, rpl, otkp',
             'manajemen' => 'admin, kepsek, kurikulum, kesiswaan, humas, sarpras, mutu, perpus, konseling, akl, otkp, bdp, rpl',
-            'kurkes' => 'admin, kurikulum, kesiswaan'
+            'kurkes' => 'admin, kurikulum, kesiswaan',
+            'piket' => 'admin, piket'
         ]);
 
     }

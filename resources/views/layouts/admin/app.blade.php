@@ -173,6 +173,12 @@
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="{{asset('adminv')}}/dist/js/pages/dashboard.js"></script>
     @livewireScripts
+    <script>
+        $(function () {
+          // Summernote
+          $('#summernote').summernote()
+        })
+      </script>
 </body>
 
 </html>

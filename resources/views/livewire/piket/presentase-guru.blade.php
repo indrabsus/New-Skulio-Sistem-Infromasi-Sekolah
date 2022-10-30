@@ -1,11 +1,8 @@
-@if (strpos(Config::get('kurikulum'), Auth::user()->level) === false)
+@if (strpos(Config::get('guru').', piket', Auth::user()->level) === false)
 <script>window.location = "{{ route('index') }}";</script>
 @endif
 <div>
     <div class="row">
-        <div class="col-lg-2"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#add">
-            Tambah Data
-          </button></div>
         <div class="col-lg-1 mb-1">
             <select wire:model='result' class="form-control">
                 <option value="10">10</option>
@@ -17,16 +14,6 @@
         <div class="col-lg-3 mb-1">
             <input type="text" wire:model='search' class="form-control" placeholder="Cari Nama Guru">
         </div>
-        <div class="col-lg-3 mb-1">
-            <select class="form-control" wire:model="carihari">
-                <option value="">Cari berdasarkan hari</option>
-                <option value="Senin">Senin</option>
-                <option value="Selasa">Selasa</option>
-                <option value="Rabu">Rabu</option>
-                <option value="Kamis">Kamis</option>
-                <option value="Jumat">Jumat</option>
-            </select>
-        </div>
     </div>
 
     @if(session('pesan'))
@@ -36,17 +23,24 @@
     {{session('pesan')}}
     </div>
     @endif
-    {{ $data }}
-        <table class="table table-responsive-lg table-striped">
+
+        <table class="table table-responsive-sm table-striped">
             <thead>
             <tr>
                 <th>No</th>
                 <th>Nama Guru</th>
-                <th>Mata Pelajaran</th>
-                <th>Kelas</th>
-                <th>Hari</th>
-                <th>Jam ke</th>
+                <th>Bulan</th>
+                <th>Hadir</th>
+                <th>Kegiatan</th>
+                <th>BDR</th>
+                <th>Sakit</th>
+                <th>Izin</th>
+                <th>Libur</th>
+                <th>Total</th>
+                @if (Auth::user()->level == 'admin')
                 <th>Aksi</th>
+                @endif
+
             </tr>
         </thead>
         <tbody>
@@ -55,17 +49,23 @@
             <tr>
                 <td>{{ $no++ }}</td>
                 <td>{{ $d->nama_guru }}</td>
-                <td>{{ $d->nama_mapel }}</td>
-                <td>{{ $d->nama_kelas }}</td>
-                <td>{{ $d->hari }}</td>
-                <td>{{ $d->jam_a }} - {{ $d->jam_b }}</td>
-                <td><button class="btn btn-success btn-sm mb-1" wire:click="edit({{$d->id_jadwal}})" data-toggle="modal" data-target="#edit">Edit</button> <button class="btn btn-danger btn-sm mb-1" data-toggle="modal" data-target="#delete" wire:click="konfirmasiHapus({{$d->id_jadwal}})">Delete</button></td>
+                <td>{{ $d->bulan }} {{ $d->tahun }}</td>
+                <td>{{ $d->hadir }}</td>
+                <td>{{ $d->kegiatan }}</td>
+                <td>{{ $d->bdr }}</td>
+                <td>{{ $d->sakit }}</td>
+                <td>{{ $d->izin }}</td>
+                <td>{{ $d->nojadwal }}</td>
+                <td>{{ $d->total_absen }}</td>
+                @if (Auth::user()->level == 'admin')
+                <td><button class="btn btn-success btn-sm mb-1" wire:click="edit({{$d->id_hitung}})" data-toggle="modal" data-target="#edit">Edit</button></td>
+                @endif
+
             </tr>
             @endforeach
         </tbody>
         </table>
         {{ $data->links() }}
-
 
       <!-- Modal EDIT USER -->
       <div wire:ignore.self class="modal fade" id="edit">
@@ -84,62 +84,26 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label>Nama Guru</label>
-                            <select class="form-control" wire:model="id_ajar">
-                                <option value="">Pilih Guru Mapel</option>
-                                @foreach ($guru as $g)
-                                    <option value="{{ $g->id_ajar }}">{{ $g->nama_guru }} - ({{ $g->nama_mapel }} {{ $g->nama_kelas }})</option>
-                                @endforeach
-                            </select>
+                            <label>Hadir</label>
+                            <input class="form-control" wire:model="hadir">
                             <div class="text-danger">
-                                @error('id_ajar')
+                                @error('hadir')
                                     {{$message}}
                                 @enderror
                             </div>
                         </div>
+
                         <div class="form-group">
-                            <label>Hari</label>
-                        <select class="form-control" wire:model="hari">
-                            <option value="">Pilih Hari</option>
-                            <option value="Senin">Senin</option>
-                            <option value="Selasa">Selasa</option>
-                            <option value="Rabu">Rabu</option>
-                            <option value="Kamis">Kamis</option>
-                            <option value="Jumat">Jumat</option>
-                        </select>
+                            <label>Total</label>
+                            <input class="form-control" wire:model="total_absen">
                             <div class="text-danger">
-                                @error('hari')
+                                @error('total_absen')
                                     {{$message}}
                                 @enderror
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label>Jam Ke</label>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <input type="text" class="form-control" wire:model="jam_a">
-
-                                </div>
-                                <div class="col-lg-1">-</div>
-                                <div class="col-sm-3">
-                                    <input type="text" class="form-control" wire:model="jam_b">
-
-                                </div>
-                                <div class="text-danger">
-                                    @error('jam_a')
-                                        {{$message}}
-                                    @enderror
-                                </div>
-                                <div class="text-danger">
-                                    @error('jam_b')
-                                        {{$message}}
-                                    @enderror
-                                </div>
-                            </div>
-
-                        </div>
+                    </div>
                 </div>
-            </div>
                 </div>
             </div>
             <div class="modal-footer justify-content-between">
@@ -203,62 +167,36 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label>Nama Guru</label>
-                        <select class="form-control" wire:model="id_ajar">
-                            <option value="">Pilih Guru Mapel</option>
-                            @foreach ($guru as $g)
-                                <option value="{{ $g->id_ajar }}">{{ $g->nama_guru }} ({{ $g->nama_mapel }} {{ $g->nama_kelas }})</option>
-                            @endforeach
-                        </select>
+                        <label>Nama Pemasukan</label>
+                        <input name="nama_credit" class="form-control" value="{{old('nama_credit')}}" wire:model="nama_credit">
                         <div class="text-danger">
-                            @error('id_ajar')
+                            @error('nama_credit')
                                 {{$message}}
                             @enderror
                         </div>
                     </div>
+
                     <div class="form-group">
-                        <label>Hari</label>
-                    <select class="form-control" wire:model="hari">
-                        <option value="">Pilih Hari</option>
-                        <option value="Senin">Senin</option>
-                        <option value="Selasa">Selasa</option>
-                        <option value="Rabu">Rabu</option>
-                        <option value="Kamis">Kamis</option>
-                        <option value="Jumat">Jumat</option>
-                    </select>
+                        <label>Jumlah</label>
+                        <input name="biaya_credit" class="form-control" value="{{old('biaya_credit')}}" wire:model="biaya_credit">
                         <div class="text-danger">
-                            @error('hari')
+                            @error('biaya_credit')
                                 {{$message}}
                             @enderror
                         </div>
                     </div>
+
                     <div class="form-group">
-                        <label>Jam Ke</label>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <input type="text" class="form-control" wire:model="jam_a">
-
-                            </div>
-                            <div class="col-lg-1">-</div>
-                            <div class="col-sm-3">
-                                <input type="text" class="form-control" wire:model="jam_b">
-
-                            </div>
-                            <div class="text-danger">
-                                @error('jam_a')
-                                    {{$message}}
-                                @enderror
-                            </div>
-                            <div class="text-danger">
-                                @error('jam_b')
-                                    {{$message}}
-                                @enderror
-                            </div>
+                        <label>Tanggal</label>
+                        <input type="date" id="date" wire:model="tahun_credit" class="form-control">
+                        <div class="text-danger">
+                            @error('tahun_credit')
+                                {{$message}}
+                            @enderror
                         </div>
-
                     </div>
+                </div>
             </div>
-        </div>
 
         </div>
         <div class="modal-footer justify-content-between">

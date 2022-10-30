@@ -17,16 +17,6 @@
         <div class="col-lg-3 mb-1">
             <input type="text" wire:model='search' class="form-control" placeholder="Cari Nama Guru">
         </div>
-        <div class="col-lg-3 mb-1">
-            <select class="form-control" wire:model="carihari">
-                <option value="">Cari berdasarkan hari</option>
-                <option value="Senin">Senin</option>
-                <option value="Selasa">Selasa</option>
-                <option value="Rabu">Rabu</option>
-                <option value="Kamis">Kamis</option>
-                <option value="Jumat">Jumat</option>
-            </select>
-        </div>
     </div>
 
     @if(session('pesan'))
@@ -36,16 +26,14 @@
     {{session('pesan')}}
     </div>
     @endif
-    {{ $data }}
-        <table class="table table-responsive-lg table-striped">
+
+        <table class="table table-bordered table-striped">
             <thead>
             <tr>
                 <th>No</th>
                 <th>Nama Guru</th>
                 <th>Mata Pelajaran</th>
                 <th>Kelas</th>
-                <th>Hari</th>
-                <th>Jam ke</th>
                 <th>Aksi</th>
             </tr>
         </thead>
@@ -57,9 +45,7 @@
                 <td>{{ $d->nama_guru }}</td>
                 <td>{{ $d->nama_mapel }}</td>
                 <td>{{ $d->nama_kelas }}</td>
-                <td>{{ $d->hari }}</td>
-                <td>{{ $d->jam_a }} - {{ $d->jam_b }}</td>
-                <td><button class="btn btn-success btn-sm mb-1" wire:click="edit({{$d->id_jadwal}})" data-toggle="modal" data-target="#edit">Edit</button> <button class="btn btn-danger btn-sm mb-1" data-toggle="modal" data-target="#delete" wire:click="konfirmasiHapus({{$d->id_jadwal}})">Delete</button></td>
+                <td><button class="btn btn-success btn-sm mb-1" wire:click="edit({{$d->id_ajar}})" data-toggle="modal" data-target="#edit">Edit</button> <button class="btn btn-danger btn-sm mb-1" data-toggle="modal" data-target="#delete" wire:click="konfirmasiHapus({{$d->id_ajar}})">Delete</button></td>
             </tr>
             @endforeach
         </tbody>
@@ -85,58 +71,31 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label>Nama Guru</label>
-                            <select class="form-control" wire:model="id_ajar">
+                            <select wire:model="id_gurumapel" class="form-control">
                                 <option value="">Pilih Guru Mapel</option>
                                 @foreach ($guru as $g)
-                                    <option value="{{ $g->id_ajar }}">{{ $g->nama_guru }} - ({{ $g->nama_mapel }} {{ $g->nama_kelas }})</option>
+                                    <option value="{{ $g->id_gurumapel }}">{{ $g->nama_guru }} ({{ $g->nama_mapel }})</option>
                                 @endforeach
                             </select>
                             <div class="text-danger">
-                                @error('id_ajar')
+                                @error('id_gurumapel')
                                     {{$message}}
                                 @enderror
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>Hari</label>
-                        <select class="form-control" wire:model="hari">
-                            <option value="">Pilih Hari</option>
-                            <option value="Senin">Senin</option>
-                            <option value="Selasa">Selasa</option>
-                            <option value="Rabu">Rabu</option>
-                            <option value="Kamis">Kamis</option>
-                            <option value="Jumat">Jumat</option>
-                        </select>
+                            <label>Kelas</label>
+                            <select wire:model="id_kelas" class="form-control">
+                                <option value="">Pilih Kelas</option>
+                                @foreach ($kelas as $m)
+                                    <option value="{{ $m->id_kelas }}">{{ $m->nama_kelas }}</option>
+                                @endforeach
+                            </select>
                             <div class="text-danger">
-                                @error('hari')
+                                @error('id_kelas')
                                     {{$message}}
                                 @enderror
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Jam Ke</label>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <input type="text" class="form-control" wire:model="jam_a">
-
-                                </div>
-                                <div class="col-lg-1">-</div>
-                                <div class="col-sm-3">
-                                    <input type="text" class="form-control" wire:model="jam_b">
-
-                                </div>
-                                <div class="text-danger">
-                                    @error('jam_a')
-                                        {{$message}}
-                                    @enderror
-                                </div>
-                                <div class="text-danger">
-                                    @error('jam_b')
-                                        {{$message}}
-                                    @enderror
-                                </div>
-                            </div>
-
                         </div>
                 </div>
             </div>
@@ -204,58 +163,31 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label>Nama Guru</label>
-                        <select class="form-control" wire:model="id_ajar">
+                        <select wire:model="id_gurumapel" class="form-control">
                             <option value="">Pilih Guru Mapel</option>
                             @foreach ($guru as $g)
-                                <option value="{{ $g->id_ajar }}">{{ $g->nama_guru }} ({{ $g->nama_mapel }} {{ $g->nama_kelas }})</option>
+                                <option value="{{ $g->id_gurumapel }}">{{ $g->nama_guru }} ({{ $g->nama_mapel }})</option>
                             @endforeach
                         </select>
                         <div class="text-danger">
-                            @error('id_ajar')
+                            @error('id_gurumapel')
                                 {{$message}}
                             @enderror
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>Hari</label>
-                    <select class="form-control" wire:model="hari">
-                        <option value="">Pilih Hari</option>
-                        <option value="Senin">Senin</option>
-                        <option value="Selasa">Selasa</option>
-                        <option value="Rabu">Rabu</option>
-                        <option value="Kamis">Kamis</option>
-                        <option value="Jumat">Jumat</option>
-                    </select>
+                        <label>Kelas</label>
+                        <select wire:model="id_kelas" class="form-control">
+                            <option value="">Pilih Kelas</option>
+                            @foreach ($kelas as $m)
+                                <option value="{{ $m->id_kelas }}">{{ $m->nama_kelas }}</option>
+                            @endforeach
+                        </select>
                         <div class="text-danger">
-                            @error('hari')
+                            @error('id_kelas')
                                 {{$message}}
                             @enderror
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Jam Ke</label>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <input type="text" class="form-control" wire:model="jam_a">
-
-                            </div>
-                            <div class="col-lg-1">-</div>
-                            <div class="col-sm-3">
-                                <input type="text" class="form-control" wire:model="jam_b">
-
-                            </div>
-                            <div class="text-danger">
-                                @error('jam_a')
-                                    {{$message}}
-                                @enderror
-                            </div>
-                            <div class="text-danger">
-                                @error('jam_b')
-                                    {{$message}}
-                                @enderror
-                            </div>
-                        </div>
-
                     </div>
             </div>
         </div>
