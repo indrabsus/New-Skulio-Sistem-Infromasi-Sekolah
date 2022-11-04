@@ -2,12 +2,13 @@
 
 namespace App\Http\Livewire\Piket;
 
+use App\Models\StaffCount;
 use App\Models\TeacherCount;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class PresentaseGuru extends Component
+class PresentaseStaff extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
@@ -16,11 +17,11 @@ class PresentaseGuru extends Component
     public $search = '';
     public function render()
     {
-        return view('livewire.piket.presentase-guru',[
-            'data' => DB::table('teacher_counts')
-            ->leftJoin('teachers','teachers.id_guru','teacher_counts.id_guru')
+        return view('livewire.piket.presentase-staff',[
+            'data' => DB::table('staff_counts')
+            ->leftJoin('stafs','stafs.id_staf','staff_counts.id_tendik')
             ->orderBy('id_hitung','desc')
-            ->where('nama_guru', 'like', '%'.$this->search.'%')
+            ->where('nama_staf', 'like', '%'.$this->search.'%')
             ->paginate($this->result),
         ])
         ->extends('layouts.admin.app')
@@ -31,7 +32,7 @@ class PresentaseGuru extends Component
         $this->total_absen = '';
     }
     public function edit($id){
-        $user = DB::table('teacher_counts')->where('id_hitung', $id)->first();
+        $user = DB::table('staff_counts')->where('id_hitung', $id)->first();
         $this->hadir = $user->hadir;
         $this->total_absen = $user->total_absen;
         $this->ids = $user->id_hitung;
@@ -41,7 +42,7 @@ class PresentaseGuru extends Component
             'hadir' => 'required|numeric',
             'total_absen' => 'required|numeric'
         ]);
-        TeacherCount::where('id_hitung',$this->ids)->update([
+        StaffCount::where('id_hitung',$this->ids)->update([
             'hadir' => $this->hadir,
             'total_absen' => $this->total_absen
         ]);
