@@ -1,11 +1,8 @@
-@if (strpos(Config::get('guru').'student', Auth::user()->level) === false)
+@if (strpos(Config::get('student'), Auth::user()->level) === false)
 <script>window.location = "{{ route('index') }}";</script>
 @endif
 <div>
     <div class="row">
-        <div class="col-lg-2"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#add">
-            Tambah Buku
-          </button></div>
         <div class="col-lg-1 mb-1">
             <select wire:model='result' class="form-control">
                 <option value="10">10</option>
@@ -15,7 +12,7 @@
             </select>
         </div>
         <div class="col-lg-3 mb-1">
-            <input type="text" wire:model='search' class="form-control" placeholder="Cari Nama Buku">
+            <input type="text" wire:model='search' class="form-control" placeholder="Cari Nama Tugas">
         </div>
     </div>
 
@@ -31,10 +28,9 @@
             <thead>
             <tr>
                 <th>No</th>
-                <th>Judul Buku</th>
-                <th>Tanggal</th>
-                <th>Pengirim</th>
-                <th>Aksi</th>
+                <th>Nama Tugas</th>
+                <th>Mata Pelajaran</th>
+                <th>Nilai</th>
             </tr>
         </thead>
         <tbody>
@@ -42,17 +38,14 @@
             @foreach ($data as $d)
             <tr>
                 <td>{{ $no++ }}</td>
-                <td><a href="{{ $d->link_buku }}" target="_blank">{{ $d->judul_buku }}</a></td>
-                <td>{{ \Carbon\Carbon::parse($d->created_at)->translatedFormat('l, d F Y') }}</td>
-                <td>{{ ucwords($d->pengirim) }}</td>
-                <td>@if ($d->pengirim == Auth::user()->level)
-                    <button class="btn btn-success btn-sm mb-1" wire:click="edit({{$d->id_buku}})" data-toggle="modal" data-target="#edit">Edit</button> <button class="btn btn-danger btn-sm mb-1" data-toggle="modal" data-target="#delete" wire:click="konfirmasiHapus({{$d->id_buku}})">Delete</button>
-                @endif</td>
+                <td>{{ $d->nama_tugas }}</td>
+                <td>{{ $d->nama_mapel }}</td>
+                <td>{{ $d->nilai }}</td>
             </tr>
             @endforeach
         </tbody>
         </table>
-        {{ $data->links() }}
+        {{-- {{ $data->links() }} --}}
 
       <!-- Modal EDIT USER -->
       <div wire:ignore.self class="modal fade" id="edit">
@@ -67,29 +60,40 @@
             <div class="modal-body">
               <div class="container">
                 <form>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label>Judul Buku</label>
-                                <input class="form-control" wire:model="judul_buku">
-                                <div class="text-danger">
-                                    @error('judul_buku')
-                                        {{$message}}
-                                    @enderror
-                                </div>
+                @csrf
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Nama Pemasukan</label>
+                            <input name="nama_credit" class="form-control" value="{{old('nama_credit')}}" wire:model="nama_credit">
+                            <div class="text-danger">
+                                @error('nama_credit')
+                                    {{$message}}
+                                @enderror
                             </div>
+                        </div>
 
-                            <div class="form-group">
-                                <label>Link Buku</label>
-                                <input class="form-control" wire:model="link_buku">
-                                <div class="text-danger">
-                                    @error('link_buku')
-                                        {{$message}}
-                                    @enderror
-                                </div>
+                        <div class="form-group">
+                            <label>Jumlah</label>
+                            <input name="biaya_credit" class="form-control" value="{{old('biaya_credit')}}" wire:model="biaya_credit">
+                            <div class="text-danger">
+                                @error('biaya_credit')
+                                    {{$message}}
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Tanggal</label>
+                            <input type="date" id="date" wire:model="tahun_credit" class="form-control">
+                            <div class="text-danger">
+                                @error('tahun_credit')
+                                    {{$message}}
+                                @enderror
                             </div>
                         </div>
                     </div>
+                </div>
                 </div>
             </div>
             <div class="modal-footer justify-content-between">
@@ -153,20 +157,30 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label>Judul Buku</label>
-                        <input class="form-control" wire:model="judul_buku">
+                        <label>Nama Pemasukan</label>
+                        <input name="nama_credit" class="form-control" value="{{old('nama_credit')}}" wire:model="nama_credit">
                         <div class="text-danger">
-                            @error('judul_buku')
+                            @error('nama_credit')
                                 {{$message}}
                             @enderror
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label>Link Buku</label>
-                        <input class="form-control" wire:model="link_buku">
+                        <label>Jumlah</label>
+                        <input name="biaya_credit" class="form-control" value="{{old('biaya_credit')}}" wire:model="biaya_credit">
                         <div class="text-danger">
-                            @error('link_buku')
+                            @error('biaya_credit')
+                                {{$message}}
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tanggal</label>
+                        <input type="date" id="date" wire:model="tahun_credit" class="form-control">
+                        <div class="text-danger">
+                            @error('tahun_credit')
                                 {{$message}}
                             @enderror
                         </div>

@@ -16,7 +16,7 @@ class Index extends Component
             'teachers' => DB::table('teachers')
                             ->count(),
             'students' => DB::table('users')
-                            ->where('level','siswa')
+                            ->where('level','student')
                             ->where('confirmed','y')
                             ->count(),
             'groups' => DB::table('groups')

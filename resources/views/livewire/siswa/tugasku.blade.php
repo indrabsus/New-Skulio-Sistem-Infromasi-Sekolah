@@ -1,11 +1,8 @@
-@if (strpos(Config::get('guru').'student', Auth::user()->level) === false)
+@if (strpos(Config::get('student'), Auth::user()->level) === false)
 <script>window.location = "{{ route('index') }}";</script>
 @endif
 <div>
     <div class="row">
-        <div class="col-lg-2"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#add">
-            Tambah Buku
-          </button></div>
         <div class="col-lg-1 mb-1">
             <select wire:model='result' class="form-control">
                 <option value="10">10</option>
@@ -15,14 +12,13 @@
             </select>
         </div>
         <div class="col-lg-3 mb-1">
-            <input type="text" wire:model='search' class="form-control" placeholder="Cari Nama Buku">
+            <input type="text" wire:model='search' class="form-control" placeholder="Cari Nama Mapel">
         </div>
     </div>
 
     @if(session('pesan'))
     <div class="alert alert-success alert-dismissible">
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-    <h5><i class="icon fas fa-check"></i> Sukses!</h5>
     {{session('pesan')}}
     </div>
     @endif
@@ -31,9 +27,10 @@
             <thead>
             <tr>
                 <th>No</th>
-                <th>Judul Buku</th>
-                <th>Tanggal</th>
-                <th>Pengirim</th>
+                <th>Tugas</th>
+                <th>Mata Pelajaran</th>
+                <th>Nama Guru</th>
+                <th>Batas Waktu</th>
                 <th>Aksi</th>
             </tr>
         </thead>
@@ -42,11 +39,17 @@
             @foreach ($data as $d)
             <tr>
                 <td>{{ $no++ }}</td>
-                <td><a href="{{ $d->link_buku }}" target="_blank">{{ $d->judul_buku }}</a></td>
-                <td>{{ \Carbon\Carbon::parse($d->created_at)->translatedFormat('l, d F Y') }}</td>
-                <td>{{ ucwords($d->pengirim) }}</td>
-                <td>@if ($d->pengirim == Auth::user()->level)
-                    <button class="btn btn-success btn-sm mb-1" wire:click="edit({{$d->id_buku}})" data-toggle="modal" data-target="#edit">Edit</button> <button class="btn btn-danger btn-sm mb-1" data-toggle="modal" data-target="#delete" wire:click="konfirmasiHapus({{$d->id_buku}})">Delete</button>
+                <td>{{ $d->nama_tugas }}</td>
+                <td>{{ $d->nama_mapel }}</td>
+                <td>{{ $d->nama_guru }}</td>
+                <td>{{ \Carbon\Carbon::parse($d->akhir)->translatedFormat('l, d F Y - h:i') }}</td>
+                <td>@if (!is_null($d->jawaban))
+                    <button class="btn btn-danger btn-sm" disabled>Sudah dikerjakan</button>
+                @elseif(now() >= $d->akhir)
+                <button class="btn btn-danger btn-sm" disabled>Waktu Habis</button>
+                @else
+                <button class="btn btn-success btn-sm mb-1" wire:click="tugas({{$d->id_tugas}})" data-toggle="modal" data-target="#tugas">Kerjakan</button>
+
                 @endif</td>
             </tr>
             @endforeach
@@ -55,11 +58,11 @@
         {{ $data->links() }}
 
       <!-- Modal EDIT USER -->
-      <div wire:ignore.self class="modal fade" id="edit">
+      <div wire:ignore.self class="modal fade" id="tugas">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title">Edit Data</h4>
+              <h4 class="modal-title">Tugas</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -67,35 +70,35 @@
             <div class="modal-body">
               <div class="container">
                 <form>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label>Judul Buku</label>
-                                <input class="form-control" wire:model="judul_buku">
-                                <div class="text-danger">
-                                    @error('judul_buku')
-                                        {{$message}}
-                                    @enderror
-                                </div>
-                            </div>
+                @csrf
+                <div class="row">
+                    <div class="col-lg">
+                        <h3>{{ $nama_tugas }}</h3>
+                        <p>{!! nl2br(e($deskripsi)) !!}</p>
+                    </div>
+                </div>
 
-                            <div class="form-group">
-                                <label>Link Buku</label>
-                                <input class="form-control" wire:model="link_buku">
-                                <div class="text-danger">
-                                    @error('link_buku')
-                                        {{$message}}
-                                    @enderror
-                                </div>
+                    <div class="row mt-3">
+                    <div class="col-lg">
+                        <div class="form-group">
+                            <label>Jawaban :</label>
+                            <textarea class="form-control" wire:model="jawaban"></textarea>
+                            <div class="text-danger">
+                                @error('jawaban')
+                                    {{$message}}
+                                @enderror
                             </div>
                         </div>
                     </div>
+                </div>
+
+
                 </div>
             </div>
             <div class="modal-footer justify-content-between">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
               <div class="form-group">
-                <button class="btn btn-primary btn-sm" wire:click.prevent="update()">Simpan</button>
+                <button class="btn btn-primary btn-sm" wire:click.prevent="kirimTugas()">Kirim</button>
               </form>
             </div>
             </div>
@@ -153,20 +156,30 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label>Judul Buku</label>
-                        <input class="form-control" wire:model="judul_buku">
+                        <label>Nama Pemasukan</label>
+                        <input name="nama_credit" class="form-control" value="{{old('nama_credit')}}" wire:model="nama_credit">
                         <div class="text-danger">
-                            @error('judul_buku')
+                            @error('nama_credit')
                                 {{$message}}
                             @enderror
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label>Link Buku</label>
-                        <input class="form-control" wire:model="link_buku">
+                        <label>Jumlah</label>
+                        <input name="biaya_credit" class="form-control" value="{{old('biaya_credit')}}" wire:model="biaya_credit">
                         <div class="text-danger">
-                            @error('link_buku')
+                            @error('biaya_credit')
+                                {{$message}}
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tanggal</label>
+                        <input type="date" id="date" wire:model="tahun_credit" class="form-control">
+                        <div class="text-danger">
+                            @error('tahun_credit')
                                 {{$message}}
                             @enderror
                         </div>
@@ -194,7 +207,7 @@
      $("#add").modal('hide');
     })
     window.addEventListener('closeModal', event => {
-     $("#edit").modal('hide');
+     $("#tugas").modal('hide');
     })
     window.addEventListener('closeModal', event => {
      $("#delete").modal('hide');

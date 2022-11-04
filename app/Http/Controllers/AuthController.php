@@ -63,7 +63,7 @@ class AuthController extends Controller
         $inputUser = User::create([
             'username' => $request->username,
             'password' => bcrypt($request->password),
-            'level' => 'siswa',
+            'level' => 'student',
             'confirmed' => 'n'
         ]);
         $inputStudent = Student::create([

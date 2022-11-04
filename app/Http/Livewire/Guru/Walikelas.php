@@ -18,7 +18,9 @@ class Walikelas extends Component
     public $search = '';
     public function render()
     {
-
+        $user = DB::table('users')
+        ->leftJoin('teachers','teachers.id_user','users.id')
+        ->first();
         return view('livewire.guru.walikelas',[
             'hitung' => DB::table('groups')
             ->leftJoin('teachers','teachers.id_guru','groups.id_guru')
@@ -37,7 +39,10 @@ class Walikelas extends Component
             ->where('id_user', Auth::user()->id)
             ->first(),
             'catatan' => DB::table('student_notes')
-            ->leftJoin('students','students.id_siswa','student_notes.id_siswa')->get()
+            ->leftJoin('groups','groups.id_kelas','student_notes.id_kelas')
+            ->leftJoin('students','students.id_siswa','student_notes.id_siswa')
+            ->where('groups.id_guru', $user->id_guru)
+            ->get()
         ])
         ->extends('layouts.admin.app')
         ->section('content');

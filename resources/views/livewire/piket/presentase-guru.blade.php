@@ -49,7 +49,7 @@
             <tr>
                 <td>{{ $no++ }}</td>
                 <td>{{ $d->nama_guru }}</td>
-                <td>{{ $d->bulan }} {{ $d->tahun }}</td>
+                <td>{{ $d->bulan }}</td>
                 <td>{{ $d->hadir }}</td>
                 <td>{{ $d->kegiatan }}</td>
                 <td>{{ $d->bdr }}</td>

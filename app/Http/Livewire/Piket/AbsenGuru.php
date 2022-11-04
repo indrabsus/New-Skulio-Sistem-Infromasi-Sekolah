@@ -3,7 +3,6 @@
 namespace App\Http\Livewire\Piket;
 
 use App\Models\AbsenTeacher;
-use App\Models\TeacherCount;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
@@ -56,8 +55,7 @@ class AbsenGuru extends Component
                 'keterangan' => $this->keterangan
             ]);
             DB::table('teacher_counts')->updateOrInsert([
-                'bulan' => Carbon::parse(now())->translatedFormat('F'),
-                'tahun' => Carbon::parse(now())->translatedFormat('Y'),
+                'bulan' => Carbon::parse(now())->translatedFormat('F Y'),
                 'id_guru' => $this->id_guru,
                 ],
                 [

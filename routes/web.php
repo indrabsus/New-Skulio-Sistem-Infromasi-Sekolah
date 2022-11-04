@@ -38,9 +38,18 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('admin', 'App\Http\Livewire\Admin\Index')->name('index');
         // Proses Controller
         Route::post('admin/prosesconfig', [PureController::class,'prosesconfig'])->name('prosesConfig');
-
+        Route::post('/printdataguru', 'App\Http\Controllers\PrintController@dataguru')->name('printdataguru');
+        Route::post('/printdatasiswa', 'App\Http\Controllers\PrintController@datasiswa')->name('printdatasiswa');
+        Route::post('/printjadwal', 'App\Http\Controllers\PrintController@datajadwal')->name('printjadwal');
+        Route::post('/printagendamanajerial', 'App\Http\Controllers\PrintController@agendamanajerial')->name('printagendamanajerial');
+        Route::post('/printbos', 'App\Http\Controllers\PrintController@databos')->name('printdatabos');
+        Route::post('/printsarpras', 'App\Http\Controllers\PrintController@datasarpras')->name('printdatasarpras');
+        Route::post('/printcatatan', 'App\Http\Controllers\PrintController@datacatatan')->name('printdatacatatan');
+        Route::post('/printabsenguru', 'App\Http\Controllers\PrintController@dataabsenguru')->name('printdataabsenguru');
+        Route::post('/printabsentendik', 'App\Http\Controllers\PrintController@dataabsentendik')->name('printdataabsentendik');
 
         foreach (Config::get('menu') as $m) {
             Route::get($m->path, $m->class)->name($m->route);
         }
 });
+

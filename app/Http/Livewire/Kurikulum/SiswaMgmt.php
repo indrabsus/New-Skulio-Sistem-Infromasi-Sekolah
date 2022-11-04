@@ -57,7 +57,7 @@ class SiswaMgmt extends Component
         $isi = [
             'username' => strtolower($this->username),
             'password' => bcrypt('rahasia'),
-            'level' => 'siswa',
+            'level' => 'student',
             'confirmed' => $this->confirmed
         ];
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Profile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PureController extends Controller
 {
@@ -90,5 +91,7 @@ class PureController extends Controller
         }
 
     }
+
+
 }
 
