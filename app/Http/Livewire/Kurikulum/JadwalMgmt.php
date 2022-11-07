@@ -51,8 +51,8 @@ class JadwalMgmt extends Component
         $this->validate([
             'id_ajar' => 'required',
             'hari' => 'required',
-            'jam_a' => 'required|numeric',
-            'jam_b' => 'required|numeric'
+            'jam_a' => 'required',
+            'jam_b' => 'required'
         ]);
         $isi = [
             'id_ajar' => $this->id_ajar,
@@ -86,8 +86,8 @@ class JadwalMgmt extends Component
         $this->validate([
             'id_ajar' => 'required',
             'hari' => 'required',
-            'jam_a' => 'required|numeric',
-            'jam_b' => 'required|numeric'
+            'jam_a' => 'required',
+            'jam_b' => 'required'
         ]);
 
         Schedule::where('id_jadwal',$this->id_jadwal)->update([

@@ -24,7 +24,7 @@
         <td>{{ $d->nama_mapel }}</td>
         <td>{{ $d->nama_kelas }}</td>
         <td>{{ $d->hari }}</td>
-        <td>{{ $d->jam_a }} - {{ $d->jam_b }}</td>
+        <td>{{ date('h:i', strtotime($d->jam_a)) }} - {{ date('h:i', strtotime($d->jam_b)) }}</td>
     </tr>
     @endforeach
 </tbody>

@@ -65,8 +65,9 @@ class PageController extends Controller
 
     public function jadwal(){
         $jadwal = DB::table('schedules')
-        ->leftJoin('guru_mapel_links','guru_mapel_links.id_gurumapel','schedules.id_gurumapel')
-        ->leftJoin('groups','groups.id_kelas','schedules.id_kelas')
+        ->leftJoin('student_groups','student_groups.id_ajar','schedules.id_ajar')
+        ->leftJoin('guru_mapel_links','guru_mapel_links.id_gurumapel','student_groups.id_gurumapel')
+        ->leftJoin('groups','groups.id_kelas','student_groups.id_kelas')
         ->leftJoin('teachers','teachers.id_guru','guru_mapel_links.id_guru')
         ->leftJoin('subjects','subjects.id_mapel','guru_mapel_links.id_mapel')
         ->get();
