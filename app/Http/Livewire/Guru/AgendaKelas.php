@@ -19,7 +19,12 @@ class AgendaKelas extends Component
     public $search = '';
     public function render()
     {
-        $user = DB::table('users')->leftJoin('teachers','teachers.id_user','users.id')->where('id_user', Auth::user()->id)->first();
+        $user = DB::table('users')->leftJoin('teachers','teachers.id_user','users.id')->where('id', Auth::user()->id)->first();
+        $hitung = DB::table('schedules')
+            ->leftJoin('student_groups','student_groups.id_ajar','schedules.id_ajar')
+            ->leftJoin('guru_mapel_links','guru_mapel_links.id_gurumapel','student_groups.id_gurumapel')
+            ->where('guru_mapel_links.id_guru', $user->id_guru)
+            ->count();
         return view('livewire.guru.agenda-kelas',[
             'data' => DB::table('schedules')
                     ->leftJoin('student_groups','student_groups.id_ajar','schedules.id_ajar')
@@ -47,6 +52,7 @@ class AgendaKelas extends Component
             ->leftJoin('teachers','teachers.id_guru','guru_mapel_links.id_guru')
             ->leftJoin('subjects','subjects.id_mapel','guru_mapel_links.id_mapel')
             ->get(),
+            'hitung' => $hitung,
 
         ])
         ->extends('layouts.admin.app')
