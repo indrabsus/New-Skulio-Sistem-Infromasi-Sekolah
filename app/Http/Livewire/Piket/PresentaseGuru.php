@@ -14,13 +14,15 @@ class PresentaseGuru extends Component
     public $nama_credit,$biaya_credit,$tahun_credit;
     public $result = 10;
     public $search = '';
+    public $caribulan = '';
     public function render()
     {
         return view('livewire.piket.presentase-guru',[
             'data' => DB::table('teacher_counts')
             ->leftJoin('teachers','teachers.id_guru','teacher_counts.id_guru')
-            ->orderBy('id_hitung','desc')
+            ->orderBy('kode_guru','asc')
             ->where('nama_guru', 'like', '%'.$this->search.'%')
+            ->where('bulan', 'like', '%'.$this->caribulan.'%')
             ->paginate($this->result),
         ])
         ->extends('layouts.admin.app')
