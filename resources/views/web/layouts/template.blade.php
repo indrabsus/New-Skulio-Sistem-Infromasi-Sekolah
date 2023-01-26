@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ Config::get('data.nama_sekolah') }}</title>
+    <link rel="icon" type="image/x-icon" href="{{ asset("assets/img/logo.png") }}">
     <link rel="stylesheet" href={{ asset("assets/css/bootstrap.min.css") }}>
     <link rel="stylesheet" href={{ asset("assets/css/owl.carousel.min.css") }}>
     <link rel="stylesheet" href={{ asset("assets/css/owl.theme.default.min.css") }}>
@@ -84,6 +85,9 @@
                 </button>
                 <div id="my-nav" class="collapse navbar-collapse">
                     <ul class="navbar-nav mr-auto">
+                        <li class="nav-item {{ Route::currentRouteName() === 'home' ? 'active':'' }}">
+                            <a class="nav-link" href="{{ route('home') }}">Home</a>
+                        </li>
                         <li class="nav-item {{ Route::currentRouteName() === 'pengumuman' ? 'active':'' }}">
                             <a class="nav-link" href="{{ route('pengumuman') }}">Kegiatan</a>
                         </li>
@@ -126,14 +130,107 @@
                         <li class="nav-item {{ Route::currentRouteName() === 'bukutamu' ?'active':''}}">
                             <a class="nav-link" href="{{ route('bukutamu') }}">Buku Tamu</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="">PPDB Online</a>
+                        <li class="nav-item {{ Route::currentRouteName() === 'ppdb' ?'active':''}}">
+                            <a class="nav-link" href="{{ route('ppdb') }}">PPDB Online</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
+    @if (Route::currentRouteName() === 'home')
+    <section>
+        <div id="hero-area">
+            <div id="hero-area-nav"></div>
+            <div class="owl-carousel" id="hero-area-slider">
+                @foreach ($data as $d)
+                <div class="hero-area-item">
+                    <img class="img-fluid" src="{{ asset(Config::get('public')) }}/{{ $d->gambar }}" alt="Banner Slider 1">
+                    @if ($d->judul != null && $d->deskripsi != null && $d->link != null && $d->tombol != null)
+                    <div class="hero-area-content">
+                        <h2>{{ $d->judul }}</h2>
+                        <p>{{ $d->deskripsi }}</p>
+                        <a class="btn btn-utama" href="{{  $d->link  }}">{{ $d->tombol }}</a>
+                    </div>
+                    @endif
+                </div> 
+                @endforeach
+                
+            </div>
+        </div>
+    </section>
+
+    <section id="sambutan">
+        <div class="container">
+            <h2>Profil {{ Config::get('data.nama_sekolah') }}</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="video-wrapper">
+                        {!! Config::get('data.yt_video') !!}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    {!! Config::get('data.sambutan') !!}
+                </div>
+            </div>
+            <!-- .row -->
+        </div>
+        <!-- .container -->
+    </section>
+    <!-- #sambutan -->
+
+
+    <section id="alumni">
+        <div class="container">
+            <div class="section-title">
+                <h2>Jurusan di Sekolah Kami</h2>
+            </div>
+            <div class="section-body">
+                <div class="row">
+                    @foreach ($jurusan as $d)
+                    <div class="col-md-3 shadow-sm">
+                        <div class="card">
+                            <img src="{{ asset(Config::get('public')) }}/{{ $d->gambar }}" class="card-img-top" alt="...">
+                            <div class="card-body">
+                              <p class="card-text">
+                                    {!! $d->deskripsi !!}
+                              </div>
+                          </div>
+                    </div>
+                    @endforeach
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    
+    <section id="galeri">
+        <div class="container">
+            <div class="section-title">
+                <h2>Galeri / Dokumentasi</h2>
+            </div>
+            <div class="section-body">
+                <div id="slider-tools-3"></div>
+                <div class="owl-carousel" id="galeri-slider">
+                    @foreach ($gal as $d)
+                    <div class="section-item-slider">
+                        <a href="{{ $d->link }}" target="_blank"><img class="foto-galeri" src="{{ asset(Config::get('public')) }}/{{ $d->gambar }}" alt=""></a>
+                        <div class="section-item-caption">
+                            <a href="{{ $d->link }}">
+                                <h5>{{ $d->judul }}</h5>
+                            </a>
+                            <h6>{{ $d->deskripsi }}</h6>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </section>
+
+    @endif
 
     <section id="sambutan">
         <div class="container">

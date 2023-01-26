@@ -106,16 +106,20 @@
             <!-- /.content-header -->
             <!-- Main content -->
             <section class="content">
-                <div class="container-fluid">
-                    <!-- Small boxes (Stat box) -->
-                    <div class="row">
-                        <div class="container">
-                            @yield('content')
+                <div class="card">
+                    <div class="card-body">
+                        <div class="container-fluid">
+                            <!-- Small boxes (Stat box) -->
+                            <div class="row">
+                                <div class="container">
+                                    @yield('content')
+                                </div>
+                            </div>
+        
+        
+                            <!-- /.row (main row) -->
                         </div>
                     </div>
-
-
-                    <!-- /.row (main row) -->
                 </div>
                 <!-- /.container-fluid -->
             </section>

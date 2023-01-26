@@ -89,6 +89,14 @@
                         @enderror
                     </div>
                 </div>
+                <div class="form-group">
+                    <label for="yt_video">Video Youtube</label>
+                    <textarea class="form-control" name="yt_video">{{ $data->yt_video }}</textarea>
+                    <div class="text-danger">
+                        @error('yt_video')
+                        @enderror
+                    </div>
+                </div>
             </div>
             <div class="col-lg-6">
                 <div class="form-group">
@@ -145,6 +153,15 @@
                           <input type="file" class="form-control-file" id="exampleFormControlFile1" name="logo">
                         </div>
                       </form>
+                </div>
+
+                <div class="form-group">
+                    <label for="sambutan">Sambutan Kepsek</label>
+                    <textarea class="form-control" name="sambutan">{{ $data->sambutan }}</textarea>
+                    <div class="text-danger">
+                        @error('sambutan')
+                        @enderror
+                    </div>
                 </div>
             </div>
             <button class="btn btn-primary btn-block" type="submit">Update</button>

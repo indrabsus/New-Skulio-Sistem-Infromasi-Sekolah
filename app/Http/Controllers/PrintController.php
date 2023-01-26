@@ -127,4 +127,31 @@ class PrintController extends Controller
         ])->setPaper('a4', 'landscape');
         return $pdf->download('dataabsenguru.pdf');
     }
+    public function siswaBaru($id){
+        $data = DB::table('new_students')->where('id_ppdb',$id)->first();
+        $pdf = Pdf::loadView('pdf.siswabaru', ['data' => $data])->setPaper('a5', 'landscape');
+        return $pdf->stream($data->nisn.'datasiswabaru.pdf');
+    }
+    public function laporanPpdb($tanggal){
+        $total = DB::table('ppdb_histories')->where('ppdb_histories.created_at','like','%'.$tanggal.'%')->sum('jumlah');
+        $data = DB::table('ppdb_histories')
+        ->leftJoin('new_students','new_students.id_ppdb','ppdb_histories.id_ppdb')
+        ->where('ppdb_histories.created_at','like','%'.$tanggal.'%')->get();
+        $pdf = Pdf::loadView('pdf.laporanppdb', ['data' => $data, 'tanggal' => $tanggal, 'total' => $total]);
+        return $pdf->stream('laporanppdb.pdf');
+    }
+    public function kelasPpdb($id){
+        $kelas = DB::table('new_groups')
+        ->where('id_kelas',$id)->first();
+        $jumlah = DB::table('new_students')->where('id_kelas', $id)->count();
+        $laki = DB::table('new_students')->where('id_kelas', $id)->where('jenkel','l')->count();
+        $perempuan = DB::table('new_students')->where('id_kelas', $id)->where('jenkel','p')->count();
+        $data = DB::table('new_students')
+        ->leftJoin('new_groups','new_groups.id_kelas','new_students.id_kelas')
+        ->where('new_students.id_kelas',$id)->get();
+        $pdf = Pdf::loadView('pdf.kelasppdb', ['data' => $data, 'kelas' => $kelas->nama_kelas, 'jumlah' => $jumlah,
+    'laki' => $laki, 'perempuan' => $perempuan
+    ]);
+        return $pdf->stream($kelas->nama_kelas.'.pdf');
+    }
 }

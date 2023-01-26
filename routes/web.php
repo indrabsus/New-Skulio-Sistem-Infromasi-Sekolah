@@ -13,7 +13,8 @@ Route::post('proses_login', 'App\Http\Controllers\AuthController@proses_login')-
 Route::get('/logout', 'App\Http\Controllers\AuthController@logout')->name('logout');
 
 // Route Web Home
-Route::get('/',[PageController::class,'pengumuman'])->name('pengumuman');
+Route::get('/',[PageController::class,'home'])->name('home');
+Route::get('/kegiatan',[PageController::class,'pengumuman'])->name('pengumuman');
 Route::get('/guru',[PageController::class,'guru'])->name('dataguru');
 Route::get('/tendik',[PageController::class,'tendik'])->name('datatendik');
 Route::get('/mapel',[PageController::class,'mapel'])->name('datamapel');
@@ -29,6 +30,10 @@ Route::get('/agendasarpras',[PageController::class,'sarpras'])->name('sarprasage
 Route::get('/agendamutu',[PageController::class,'mutu'])->name('mutuagenda');
 Route::get('/bukutamu',[PageController::class,'tamu'])->name('bukutamu');
 Route::post('/kirimtamu',[PageController::class,'kirimtamu'])->name('kirimtamu');
+Route::get('/ppdb',[PageController::class,'ppdb'])->name('ppdb');
+Route::get('/cekppdb/{nisn?}',[PageController::class,'ppdb2'])->name('ppdb2');
+Route::post('/kirimbaru',[PageController::class,'kirimbaru'])->name('kirimbaru');
+Route::post('/postppdb',[PageController::class,'cekppdb'])->name('cekppdb');
 
 
 
@@ -47,7 +52,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/printcatatan', 'App\Http\Controllers\PrintController@datacatatan')->name('printdatacatatan');
         Route::post('/printabsenguru', 'App\Http\Controllers\PrintController@dataabsenguru')->name('printdataabsenguru');
         Route::post('/printabsentendik', 'App\Http\Controllers\PrintController@dataabsentendik')->name('printdataabsentendik');
-
+        Route::get('/printsiswabaru/{id}', 'App\Http\Controllers\PrintController@siswaBaru')->name('siswabaru');
+        Route::get('/printlaporanppdb/{tanggal?}', 'App\Http\Controllers\PrintController@laporanPpdb')->name('laporanppdb');
+        Route::get('/printkelas/{id?}', 'App\Http\Controllers\PrintController@kelasPpdb')->name('printkelas');
         foreach (Config::get('menu') as $m) {
             Route::get($m->path, $m->class)->name($m->route);
         }

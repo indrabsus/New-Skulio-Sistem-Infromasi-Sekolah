@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Announcement;
 use App\Models\GuestBook;
+use App\Models\NewStudent;
 use App\Models\Staf;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
@@ -13,6 +14,16 @@ use Illuminate\Support\Facades\Http;
 
 class PageController extends Controller
 {
+    public function home(){
+        $data = DB::table('sliders')->get();
+        $gal = DB::table('galeries')->get();
+        $jurusan = DB::table('jurusans')->get();
+        return view('web.home',[
+            'data' => $data,
+            'gal' => $gal,
+            'jurusan' => $jurusan
+        ]);
+    }
     public function pengumuman(){
         $pengumuman = Announcement::orderBy('id_kegiatan','desc')->get();
         return view('web.kegiatan',[
@@ -161,8 +172,62 @@ class PageController extends Controller
         $tamu = GuestBook::create($request->all());
         $teks = 'Ada notifikasi baru, tamu bernama '.$tamu->nama.', dari instansi : '.$tamu->instansi.' dengan keperluan '.$tamu->keperluan.' dan ditujukan ke '.$tamu->divisi;
         $response = Http::get('https://api.telegram.org/bot'.Config::get('data.token_telegram').'/sendMessage?chat_id='.Config::get('data.chat_admin').'&text='.$teks);
+        // $response = Http::get('https://api.telegram.org/bot'.Config::get('data.token_telegram').'/sendMessage?chat_id='.Config::get('data.chat_admin').'&text='.$teks);
         // $response = Http::get('https://api.telegram.org/bot5606244931:AAH9d-snV68vL16HkAtX4SVFb_24vF9AF6M/getUpdates');
 
         return redirect()->route('bukutamu')->with('status', 'Berhasil kirim ke tujuan');
     }
+
+    public function ppdb(){
+        Config::get('data');
+        return view('web.ppdb');
+    }
+    public function kirimbaru(Request $request){
+        $request->validate([
+            'nisn' => 'required|unique:new_students|numeric',
+            'nama' => 'required',
+            'jenkel' => 'required',
+            'asal_sekolah' => 'required',
+            'minat' => 'required',
+            'nohp' => 'required|numeric',
+            'ttl' => 'required',
+            'alamat' => 'required',
+            'agama' => 'required',
+            'ortu' => 'required'
+        ]);
+
+        $siswa = [
+            'nisn' => $request->nisn,
+            'nama' => $request->nama,
+            'jenkel' => $request->jenkel,
+            'asal_sekolah' => $request->asal_sekolah,
+            'minat' => implode(', ', $request->minat),
+            'nohp' => $request->nohp,
+            'ttl' => $request->ttl,
+            'alamat' => $request->alamat,
+            'agama' => $request->agama,
+            'ortu' => $request->ortu,
+            'cicilan1' => 0,
+            'cicilan2' => 0,
+            'cicilan3' => 0
+        ];
+        $input = NewStudent::create($siswa);
+        $teks = 'Pemberitahuan, ada siswa baru mendaftar dengan nama ' . $input->nama . ', dan asal sekolah dari ' . $input->asal_sekolah . ', dan ini adalah no wa saya https://wa.me/62'. substr($input->nohp, 1);
+        $response = Http::get('https://api.telegram.org/bot'.Config::get('data.token_telegram').'/sendMessage?chat_id=-1001818606826,&text='.$teks);
+        return redirect()->route('ppdb')->with('status', 'Anda Sudah Berhasil Daftar, untuk pembayaran silakan langsung datang ke SMK Sangkuriang 1 Cimahi dengan memberikan NOMOR NISN kepada Panitia PPDB. Terima Kasih');
+    }
+    public function ppdb2(){
+        
+        Config::get('data');
+        return view('web.ppdb2');
+    }
+    public function cekppdb(Request $request){
+        $data = DB::table('new_students')
+            ->where('nisn', $request->nisn)
+            ->first();
+        return view('web.cekppdb', [
+            'data' => $data
+        ]);
+    }
+    
 }

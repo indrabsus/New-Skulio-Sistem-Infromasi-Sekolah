@@ -32,6 +32,8 @@ class PureController extends Controller
                 'url' => 'required',
                 'token_telegram' => 'required',
                 'chat_admin' => 'required',
+                'yt_video' => 'required',
+                'sambutan' => 'required'
             ]);
 
 
@@ -48,6 +50,8 @@ class PureController extends Controller
             'url' => $request->url,
             'token_telegram' => $request->token_telegram,
             'chat_admin' => $request->chat_admin,
+            'yt_video' => $request->yt_video,
+            'sambutan' => $request->sambutan,
             ]);
 
             return redirect()->route('config')->with('status','Berhasil ubah setelan web');
@@ -65,7 +69,9 @@ class PureController extends Controller
                 'url' => 'required',
                 'token_telegram' => 'required',
                 'chat_admin' => 'required',
-                'logo' => 'image'
+                'logo' => 'image',
+                'yt_video' => 'required',
+                'sambutan' => 'required'
             ]);
                 $ext = $request->file('logo')->getClientOriginalExtension();
                 $path = $request->file('logo')->storeAs('public/imgweb', 'logo.'.$ext);
@@ -84,13 +90,16 @@ class PureController extends Controller
                     'url' => $request->url,
                     'token_telegram' => $request->token_telegram,
                     'chat_admin' => $request->chat_admin,
-                    'logo' =>  '/'.$path
+                    'logo' =>  '/'.$path,
+                    'yt_video' => $request->yt_video,
+                    'sambutan' => $request->sambutan,
                     ]);
 
                     return redirect()->route('config')->with('status','Berhasil ubah setelan web');
         }
 
     }
+  
 
 
 }
