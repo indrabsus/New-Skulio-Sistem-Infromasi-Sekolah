@@ -24,7 +24,9 @@
         <input type="date" class="form-control" wire:model="tanggal">
       </div>
       <div class="col-lg-1 mb-1">
+        @if ($tanggal != "")
         <a href="{{ route('laporanppdb', ['tanggal' => $tanggal]) }}" class="btn btn-primary" target="_blank">Print</a>
+        @endif
       </div>
     </div>
 

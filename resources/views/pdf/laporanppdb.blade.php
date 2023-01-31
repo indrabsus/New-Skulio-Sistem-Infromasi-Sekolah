@@ -26,8 +26,8 @@
             <th>No</th>
             <th>NISN</th>
             <th>Nama</th>
-            <th>Jenis</th>
-            <th>Jumlah</th>
+            <th>Daftar</th>
+            <th>PPDB</th>
         </tr>
         @php
             $no = 1;
@@ -37,12 +37,14 @@
                 <td>{{ $no++ }}</td>
                 <td>{{ $d->nisn }}</td>
                 <td>{{ $d->nama }}</td>
-                <td>{{ $d->jenis }}</td>
-                <td>Rp. {{ number_format($d->jumlah,2,',','.') }}</td>
+                <td>{{ $d->jenis == 'daftar' ? "Rp. ".number_format($d->jumlah,2,',','.') : "-"}}</td>
+                <td>{{ $d->jenis == 'ppdb' ? "Rp. ".number_format($d->jumlah,2,',','.') : "-"}}</td>
             
         </tr>
         @endforeach
     </table>
+    <p>Pendapatan Uang Pendaftaran : Rp. {{ number_format($daftar,2,',','.') }}</p>
+    <p>Pendapatan Uang PPDB : Rp. {{ number_format($ppdb,2,',','.') }}</p>
     <p>Total Pendapatan Hari ini : Rp. {{ number_format($total,2,',','.') }}</p>
     <p class="text-right">Cimahi, {{ date('d F Y', strtotime($tanggal))}}</p>
     <p class="text-right"><img src="{{ asset('assets/img/qr-code.png') }}" width="50px"> Panitia PPDB</p>

@@ -129,15 +129,22 @@ class PrintController extends Controller
     }
     public function siswaBaru($id){
         $data = DB::table('new_students')->where('id_ppdb',$id)->first();
-        $pdf = Pdf::loadView('pdf.siswabaru', ['data' => $data])->setPaper('a5', 'landscape');
-        return $pdf->stream($data->nisn.'datasiswabaru.pdf');
+        $pdf = Pdf::loadView('pdf.siswabaru', ['data' => $data]);
+        return $pdf->stream($data->nisn.' - '.$data->nama.'.pdf');
     }
     public function laporanPpdb($tanggal){
         $total = DB::table('ppdb_histories')->where('ppdb_histories.created_at','like','%'.$tanggal.'%')->sum('jumlah');
+        $daftar = DB::table('ppdb_histories')->where('ppdb_histories.created_at','like','%'.$tanggal.'%')
+        ->where('jenis','daftar')
+        ->sum('jumlah');
+        $ppdb = DB::table('ppdb_histories')->where('ppdb_histories.created_at','like','%'.$tanggal.'%')
+        ->where('jenis','ppdb')
+        ->sum('jumlah');
         $data = DB::table('ppdb_histories')
         ->leftJoin('new_students','new_students.id_ppdb','ppdb_histories.id_ppdb')
         ->where('ppdb_histories.created_at','like','%'.$tanggal.'%')->get();
-        $pdf = Pdf::loadView('pdf.laporanppdb', ['data' => $data, 'tanggal' => $tanggal, 'total' => $total]);
+        $pdf = Pdf::loadView('pdf.laporanppdb', ['data' => $data, 'tanggal' => $tanggal, 'total' => $total,
+    'daftar' => $daftar, 'ppdb' => $ppdb]);
         return $pdf->stream('laporanppdb.pdf');
     }
     public function kelasPpdb($id){
